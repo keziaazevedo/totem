@@ -9,14 +9,8 @@ const app = {
         this.atualizarDashboard();
         this.atualizarHistorico();
         this.configurarDataPadrao();
-
-        // Logout
-        document.getElementById('btnLogout').addEventListener('click', () => {
-            login.logout();
-        });
-
-        // Menu mobile
-        this.configurarMenuMobile();
+        this.configurarLogout();
+        this.inicializarAssinatura();
     },
 
     configurarMenu() {
@@ -24,32 +18,52 @@ const app = {
             item.addEventListener('click', () => {
                 const page = item.dataset.page;
                 this.abrirPagina(page);
+                // Fechar menu mobile
+                document.querySelector('.menu-lateral').classList.remove('menu-aberto');
             });
         });
     },
 
-    configurarMenuMobile() {
-        // Para responsivo
-        const menuToggle = document.createElement('button');
-        menuToggle.className = 'menu-toggle';
-        menuToggle.innerHTML = '☰';
-        menuToggle.onclick = () => {
-            document.querySelector('.menu-lateral').classList.toggle('menu-aberto');
-        };
-        document.querySelector('.conteudo-principal').prepend(menuToggle);
+    configurarLogout() {
+        document.getElementById('btnLogout').addEventListener('click', () => {
+            if (confirm('Deseja realmente sair do sistema?')) {
+                login.logout();
+            }
+        });
+    },
+
+    inicializarAssinatura() {
+        // Inicializar quando a página de entrega for mostrada
+        const observer = new MutationObserver(() => {
+            const entrega = document.getElementById('entrega');
+            if (entrega && entrega.style.display !== 'none') {
+                setTimeout(() => {
+                    if (typeof assinatura !== 'undefined') {
+                        assinatura.init();
+                    }
+                }, 300);
+            }
+        });
+        
+        const sistema = document.getElementById('sistema');
+        if (sistema) {
+            observer.observe(sistema, { 
+                childList: true, 
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['style']
+            });
+        }
     },
 
     abrirPagina(pagina) {
-        // Esconder todas
         document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
         
-        // Mostrar a selecionada
         const pageElement = document.getElementById(pagina);
         if (pageElement) {
             pageElement.style.display = 'block';
         }
 
-        // Atualizar menu
         document.querySelectorAll('.menu-item').forEach(item => {
             item.classList.remove('active');
             if (item.dataset.page === pagina) {
@@ -57,7 +71,6 @@ const app = {
             }
         });
 
-        // Atualizar página específica
         if (pagina === 'dashboard') this.atualizarDashboard();
         if (pagina === 'historico') this.atualizarHistorico();
         if (pagina === 'entrega') {
@@ -76,11 +89,7 @@ const app = {
 
     carregarDados() {
         const dados = localStorage.getItem('registrosEPI');
-        if (dados) {
-            this.registros = JSON.parse(dados);
-        } else {
-            this.registros = [];
-        }
+        this.registros = dados ? JSON.parse(dados) : [];
     },
 
     salvarDados() {
@@ -88,18 +97,15 @@ const app = {
     },
 
     mostrarEtapa(etapa) {
-        // Esconder todas as etapas
         document.querySelectorAll('.etapa-container').forEach(el => {
             el.style.display = 'none';
         });
 
-        // Mostrar etapa selecionada
         const etapaEl = document.getElementById(`etapa${etapa}`);
         if (etapaEl) {
             etapaEl.style.display = 'block';
         }
 
-        // Atualizar progresso
         document.querySelectorAll('.progress-step').forEach(step => {
             step.classList.remove('active', 'completed');
             const stepNum = parseInt(step.dataset.step);
@@ -110,8 +116,16 @@ const app = {
             }
         });
 
-        // Atualizar resumo
         this.atualizarResumo();
+        
+        // Inicializar canvas na etapa 3
+        if (etapa === 3) {
+            setTimeout(() => {
+                if (typeof assinatura !== 'undefined') {
+                    assinatura.init();
+                }
+            }, 200);
+        }
     },
 
     atualizarResumo() {
@@ -120,16 +134,24 @@ const app = {
         const quantidade = document.getElementById('quantidade')?.value || '-';
         const responsavel = document.getElementById('responsavelTST')?.value || '-';
 
-        document.getElementById('resumoFuncionario').textContent = funcionario;
-        document.getElementById('resumoEpi').textContent = epi;
-        document.getElementById('resumoQuantidade').textContent = quantidade;
-        document.getElementById('resumoFuncionario2').textContent = funcionario;
-        document.getElementById('resumoEpi2').textContent = epi;
-        document.getElementById('resumoResponsavel').textContent = responsavel;
+        ['resumoFuncionario', 'resumoFuncionario2'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = funcionario;
+        });
+        
+        ['resumoEpi', 'resumoEpi2'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = epi;
+        });
+        
+        const resumoQtd = document.getElementById('resumoQuantidade');
+        if (resumoQtd) resumoQtd.textContent = quantidade;
+        
+        const resumoResp = document.getElementById('resumoResponsavel');
+        if (resumoResp) resumoResp.textContent = responsavel;
     },
 
     irParaEtapa(etapa) {
-        // Validar etapa atual antes de avançar
         if (etapa > this.etapaAtual + 1) {
             alert('Complete a etapa atual primeiro!');
             return;
@@ -142,7 +164,6 @@ const app = {
         this.etapaAtual = etapa;
         this.mostrarEtapa(etapa);
 
-        // Se for etapa 4, finalizar entrega
         if (etapa === 4) {
             this.finalizarEntrega();
         }
@@ -158,19 +179,16 @@ const app = {
             document.getElementById('nomeFuncionario').focus();
             return false;
         }
-
         if (!matricula) {
             alert('Por favor, informe a matrícula do funcionário!');
             document.getElementById('matricula').focus();
             return false;
         }
-
         if (!epi) {
             alert('Por favor, selecione um EPI!');
             document.getElementById('epiSelect').focus();
             return false;
         }
-
         return true;
     },
 
@@ -184,23 +202,24 @@ const app = {
             document.getElementById('responsavelTST').focus();
             return false;
         }
-
         if (!confirmacao) {
             alert('Por favor, confirme a entrega do EPI!');
             return false;
         }
-
         if (!treinamento) {
             alert('Por favor, confirme que o funcionário foi orientado!');
             return false;
         }
-
         return true;
     },
 
     validarEtapa3() {
-        const assinatura = localStorage.getItem('assinaturaSalva');
-        if (!assinatura) {
+        const canvas = document.getElementById('canvasAssinatura');
+        if (!canvas) return false;
+        
+        const dataUrl = canvas.toDataURL();
+        // Verifica se tem algo desenhado (não está vazio)
+        if (dataUrl.length < 1000) {
             alert('Por favor, realize a assinatura do trabalhador!');
             return false;
         }
@@ -208,6 +227,9 @@ const app = {
     },
 
     finalizarEntrega() {
+        const canvas = document.getElementById('canvasAssinatura');
+        const assinaturaData = canvas ? canvas.toDataURL() : '';
+        
         const registro = {
             id: Date.now(),
             data: document.getElementById('dataEntrega').value || new Date().toISOString().split('T')[0],
@@ -219,20 +241,16 @@ const app = {
             observacao: document.getElementById('observacao').value.trim(),
             responsavelTST: document.getElementById('responsavelTST').value.trim(),
             registroTST: document.getElementById('registroTST').value.trim(),
-            assinatura: localStorage.getItem('assinaturaSalva'),
+            assinatura: assinaturaData,
             assinado: true,
             timestamp: new Date().toISOString()
         };
 
-        // Salvar
         this.registros.push(registro);
         this.salvarDados();
-
-        // Mostrar confirmação
         this.mostrarConfirmacao(registro);
-
-        // Limpar assinatura
-        localStorage.removeItem('assinaturaSalva');
+        this.atualizarDashboard();
+        this.atualizarHistorico();
     },
 
     mostrarConfirmacao(registro) {
@@ -241,29 +259,44 @@ const app = {
         document.getElementById('confirmQuantidade').textContent = registro.quantidade;
         document.getElementById('confirmResponsavel').textContent = registro.responsavelTST;
         document.getElementById('confirmData').textContent = new Date(registro.data).toLocaleDateString('pt-BR');
-
-        // Atualizar dashboard
-        this.atualizarDashboard();
-        this.atualizarHistorico();
     },
 
     novaEntrega() {
-        // Limpar formulário
-        document.getElementById('nomeFuncionario').value = '';
-        document.getElementById('matricula').value = '';
-        document.getElementById('funcao').value = '';
-        document.getElementById('epiSelect').value = '';
-        document.getElementById('quantidade').value = '1';
-        document.getElementById('observacao').value = '';
-        document.getElementById('responsavelTST').value = '';
-        document.getElementById('registroTST').value = '';
-        document.getElementById('confirmacaoTST').checked = false;
-        document.getElementById('treinamentoTST').checked = false;
-        document.getElementById('canvasAssinatura').getContext('2d').clearRect(0, 0, 600, 200);
+        ['nomeFuncionario', 'matricula', 'funcao', 'observacao', 'responsavelTST', 'registroTST'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+        
+        const epiSelect = document.getElementById('epiSelect');
+        if (epiSelect) epiSelect.value = '';
+        
+        const quantidade = document.getElementById('quantidade');
+        if (quantidade) quantidade.value = '1';
+        
+        ['confirmacaoTST', 'treinamentoTST'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.checked = false;
+        });
 
-        // Voltar para etapa 1
+        // Limpar assinatura
+        const canvas = document.getElementById('canvasAssinatura');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#ddd';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ccc';
+            ctx.font = '16px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('Assine aqui', canvas.width / 2, canvas.height / 2);
+        }
+
         this.etapaAtual = 1;
         this.mostrarEtapa(1);
+        this.abrirPagina('entrega');
     },
 
     atualizarDashboard() {
@@ -277,7 +310,6 @@ const app = {
         document.getElementById('totalAssinaturas').textContent = assinaturas;
         document.getElementById('totalEmergencias').textContent = emergencias;
 
-        // Últimas entregas
         const container = document.getElementById('ultimasEntregas');
         const ultimas = this.registros.slice(-5).reverse();
 
@@ -340,6 +372,10 @@ function novaEntrega() {
     if (typeof app !== 'undefined') {
         app.novaEntrega();
     }
+}
+
+function toggleMenu() {
+    document.querySelector('.menu-lateral').classList.toggle('menu-aberto');
 }
 
 // Inicializar

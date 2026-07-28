@@ -1,0 +1,371 @@
+/* ============================================================
+   RESPONSIVO.CSS - Ajustes Mobile
+   ============================================================ */
+
+/* ===== TABLET ===== */
+@media (max-width: 1024px) {
+    .dashboard-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .info-resumo {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .confirmacao-detalhes {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ===== CELULAR ===== */
+@media (max-width: 768px) {
+    /* Menu */
+    .menu-lateral {
+        width: 280px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 5px 0 30px rgba(0,0,0,0.3);
+    }
+    
+    .menu-lateral.menu-aberto {
+        transform: translateX(0);
+    }
+    
+    .conteudo-principal {
+        margin-left: 0;
+        width: 100%;
+        padding: 15px;
+    }
+    
+    .menu-toggle {
+        display: block;
+    }
+    
+    /* Dashboard */
+    .dashboard-cards {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+    
+    .card {
+        padding: 18px;
+    }
+    
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 28px;
+    }
+    
+    .card-info span {
+        font-size: 24px;
+    }
+    
+    /* Progresso */
+    .progress-bar {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 0 10px;
+    }
+    
+    .progress-step {
+        flex: 1;
+        min-width: 50px;
+    }
+    
+    .step-circle {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+    
+    .step-label {
+        font-size: 9px;
+        margin-top: 5px;
+    }
+    
+    /* Formulário */
+    .etapa-container {
+        padding: 20px 15px;
+    }
+    
+    .etapa-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .etapa-header h2 {
+        font-size: 18px;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .info-resumo {
+        grid-template-columns: 1fr;
+        padding: 15px;
+    }
+    
+    /* Botões */
+    .botoes-navegacao {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .botoes-navegacao button {
+        width: 100%;
+        justify-content: center;
+        padding: 14px;
+    }
+    
+    .btn-voltar {
+        order: 2;
+    }
+    
+    .btn-proximo {
+        order: 1;
+    }
+    
+    /* Assinatura */
+    .canvas-wrapper {
+        height: 150px;
+    }
+    
+    #canvasAssinatura {
+        height: 150px;
+    }
+    
+    .botoes-assinatura {
+        flex-direction: column;
+    }
+    
+    .botoes-assinatura button {
+        width: 100%;
+    }
+    
+    /* Histórico */
+    .historico-filtros {
+        flex-direction: column;
+    }
+    
+    .historico-filtros input {
+        min-width: auto;
+    }
+    
+    .tabela-wrapper {
+        border-radius: 12px;
+        overflow-x: auto;
+    }
+    
+    .tabela-historico {
+        font-size: 12px;
+        min-width: 600px;
+    }
+    
+    .tabela-historico th,
+    .tabela-historico td {
+        padding: 8px 10px;
+    }
+    
+    /* Emergência */
+    .emergencia-container {
+        padding: 30px 20px;
+    }
+    
+    .botao-emergencia {
+        padding: 20px 30px;
+        font-size: 20px;
+        width: 100%;
+    }
+    
+    /* Confirmação */
+    .confirmacao-detalhes {
+        grid-template-columns: 1fr;
+    }
+    
+    .icone-sucesso {
+        font-size: 60px;
+    }
+    
+    .confirmacao-container h2 {
+        font-size: 22px;
+    }
+    
+    /* Login */
+    .login-box {
+        padding: 30px 20px;
+        margin: 10px;
+    }
+    
+    .login-box h1 {
+        font-size: 22px;
+    }
+    
+    .logo {
+        max-width: 80px;
+    }
+}
+
+/* ===== CELULAR PEQUENO ===== */
+@media (max-width: 480px) {
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .card {
+        padding: 15px 18px;
+    }
+    
+    .card-info span {
+        font-size: 22px;
+    }
+    
+    .page-header h1 {
+        font-size: 22px;
+    }
+    
+    .conteudo-principal {
+        padding: 10px;
+    }
+    
+    .etapa-container {
+        padding: 15px 12px;
+    }
+    
+    .menu-lateral {
+        width: 260px;
+    }
+    
+    .login-box {
+        padding: 20px 15px;
+        border-radius: 15px;
+    }
+    
+    .login-form input {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+    
+    .btn-login {
+        padding: 12px;
+        font-size: 14px;
+    }
+    
+    .checkbox-group label {
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+    
+    .emergencia-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        padding: 10px 0;
+    }
+    
+    .entrega-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px 0;
+    }
+    
+    .entrega-info {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .entrega-meta {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .botoes-assinatura {
+        gap: 8px;
+    }
+    
+    .status-confirmado {
+        font-size: 12px;
+        padding: 4px 14px;
+    }
+}
+
+/* ===== ORIENTAÇÃO PAISAGEM ===== */
+@media (max-width: 768px) and (orientation: landscape) {
+    .menu-lateral {
+        width: 220px;
+    }
+    
+    .dashboard-cards {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+    
+    .card {
+        padding: 12px;
+    }
+    
+    .card-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 20px;
+    }
+    
+    .card-info span {
+        font-size: 18px;
+    }
+    
+    .card-info h3 {
+        font-size: 11px;
+    }
+}
+
+/* ===== PRINT ===== */
+@media print {
+    .menu-lateral,
+    .menu-toggle,
+    .botoes-navegacao,
+    .btn-exportar {
+        display: none !important;
+    }
+    
+    .conteudo-principal {
+        margin-left: 0 !important;
+        padding: 20px !important;
+        width: 100% !important;
+    }
+    
+    .page {
+        display: block !important;
+    }
+    
+    .card {
+        break-inside: avoid;
+    }
+    
+    .tabela-historico {
+        font-size: 10px;
+    }
+    
+    .tabela-historico th,
+    .tabela-historico td {
+        padding: 4px 6px;
+    }
+}
+
+/* ===== ACESSIBILIDADE ===== */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
