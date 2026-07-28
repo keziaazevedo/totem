@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle de EPIs</title>
+    <title>Sistema de Controle de EPIs - TST</title>
 
     <link rel="stylesheet" href="../totem/css/totem.css">
     <link rel="stylesheet" href="../totem/css/decoração.css">
@@ -11,178 +11,390 @@
 </head>
 <body>
 
-    <!-- Tela de Login -->
-    <section id="login">
-
+    <!-- ==================== TELA DE LOGIN ==================== -->
+    <section id="loginScreen" class="login-container">
         <div class="login-box">
-
-            <img src="../img/logo.png" alt="Logo" class="logo">
-
+            <img src="../img/logo.png" alt="Logo TST" class="logo">
             <h1>Controle de EPIs</h1>
-            <p>Faça seu login para continuar</p>
-
-            <input
-                type="text"
-                id="usuario"
-                placeholder="Usuário">
-
-            <input
-                type="password"
-                id="senha"
-                placeholder="Senha">
-
-            <button onclick="fazerLogin()">
-                Entrar
-            </button>
-
-        </div>
-
-    </section>
-
-    <!-- Sistema -->
-    <section id="sistema" style="display:none;">
-
-        <aside class="menu">
-
-            <h2>MENU</h2>
-
-            <button onclick="abrirPagina('dashboard')">
-                Dashboard
-            </button>
-
-            <button onclick="abrirPagina('epi')">
-                Controle de EPIs
-            </button>
-
-            <button onclick="abrirPagina('assinatura')">
-                Assinaturas
-            </button>
-
-            <button onclick="abrirPagina('emergencia')">
-                Emergência
-            </button>
-
-            <button onclick="abrirPagina('historico')">
-                Histórico
-            </button>
-
-            <button onclick="logout()">
-                Sair
-            </button>
-
-        </aside>
-
-        <main class="conteudo">
-
-            <!-- Dashboard -->
-            <section id="dashboard" class="pagina">
-
-                <h1>Dashboard</h1>
-
-                <div class="cards">
-
-                    <div class="card">
-                        <h3>EPIs Entregues</h3>
-                        <span id="totalEpi">0</span>
-                    </div>
-
-                    <div class="card">
-                        <h3>Funcionários</h3>
-                        <span id="totalFuncionarios">0</span>
-                    </div>
-
-                    <div class="card">
-                        <h3>Ocorrências</h3>
-                        <span id="totalEmergencias">0</span>
-                    </div>
-
+            <p>Sistema de entrega e validação</p>
+            
+            <div class="login-form">
+                <div class="form-group">
+                    <label>👤 Usuário</label>
+                    <input type="text" id="usuario" placeholder="Digite seu usuário" value="seguranca">
+                </div>
+                
+                <div class="form-group">
+                    <label>🔒 Senha</label>
+                    <input type="password" id="senha" placeholder="Digite sua senha" value="123456">
                 </div>
 
+                <div class="login-info">
+                    <small>👷 Usuário: seguranca | Senha: 123456</small>
+                </div>
+
+                <button id="btnLogin" class="btn-login">Entrar no Sistema</button>
+                <div id="mensagemErro" class="mensagem-erro" style="display:none;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SISTEMA PRINCIPAL ==================== -->
+    <div id="sistema" style="display:none;">
+
+        <!-- ======== MENU LATERAL ======== -->
+        <aside class="menu-lateral">
+            <div class="menu-header">
+                <img src="../img/logo.png" alt="Logo" class="menu-logo">
+                <h3>EPI Control</h3>
+                <span class="menu-usuario">👤 <span id="usuarioLogado">seguranca</span></span>
+            </div>
+
+            <nav class="menu-nav">
+                <button class="menu-item active" data-page="dashboard">
+                    <span class="menu-icon">📊</span> Dashboard
+                </button>
+                <button class="menu-item" data-page="entrega">
+                    <span class="menu-icon">📦</span> Nova Entrega
+                </button>
+                <button class="menu-item" data-page="historico">
+                    <span class="menu-icon">📋</span> Histórico
+                </button>
+                <button class="menu-item" data-page="emergencia">
+                    <span class="menu-icon">🚨</span> Emergência
+                </button>
+            </nav>
+
+            <button id="btnLogout" class="btn-logout">
+                🚪 Sair
+            </button>
+        </aside>
+
+        <!-- ======== CONTEÚDO PRINCIPAL ======== -->
+        <main class="conteudo-principal">
+
+            <!-- ===== DASHBOARD ===== -->
+            <section id="dashboard" class="page">
+                <div class="page-header">
+                    <h1>📊 Dashboard</h1>
+                    <p>Visão geral do sistema</p>
+                </div>
+
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-icon">📦</div>
+                        <div class="card-info">
+                            <h3>Total de Entregas</h3>
+                            <span id="totalEntregas">0</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">👷</div>
+                        <div class="card-info">
+                            <h3>Funcionários Atendidos</h3>
+                            <span id="totalFuncionarios">0</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">✅</div>
+                        <div class="card-info">
+                            <h3>Assinaturas Realizadas</h3>
+                            <span id="totalAssinaturas">0</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🚨</div>
+                        <div class="card-info">
+                            <h3>Emergências</h3>
+                            <span id="totalEmergencias">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-ultimas">
+                    <h3>Últimas Entregas</h3>
+                    <div id="ultimasEntregas">
+                        <p class="sem-registros">Nenhuma entrega registrada ainda.</p>
+                    </div>
+                </div>
             </section>
 
-            <!-- Controle de EPIs -->
-            <section id="epi" class="pagina" style="display:none;">
+            <!-- ===== NOVA ENTREGA (FLUXO SEQUENCIAL) ===== -->
+            <section id="entrega" class="page" style="display:none;">
+                <div class="page-header">
+                    <h1>📦 Nova Entrega de EPI</h1>
+                    <p>Preencha todas as etapas para registrar a entrega</p>
+                </div>
 
-                <h1>Controle de EPIs</h1>
+                <!-- Indicador de Progresso -->
+                <div class="progress-bar">
+                    <div class="progress-step active" data-step="1">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Dados do EPI</span>
+                    </div>
+                    <div class="progress-step" data-step="2">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Segurança/TST</span>
+                    </div>
+                    <div class="progress-step" data-step="3">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Assinatura</span>
+                    </div>
+                    <div class="progress-step" data-step="4">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Confirmação</span>
+                    </div>
+                </div>
 
-                <input
-                    type="text"
-                    id="nomeFuncionario"
-                    placeholder="Nome do Funcionário">
+                <!-- ETAPA 1: DADOS DO EPI -->
+                <div class="etapa-container" id="etapa1">
+                    <h2>📝 Dados da Entrega</h2>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>👤 Nome do Funcionário *</label>
+                            <input type="text" id="nomeFuncionario" placeholder="Ex: João Silva" required>
+                        </div>
 
-                <input
-                    type="text"
-                    id="nomeEpi"
-                    placeholder="Nome do EPI">
+                        <div class="form-group">
+                            <label>🆔 Matrícula *</label>
+                            <input type="text" id="matricula" placeholder="Ex: 12345" required>
+                        </div>
 
-                <button onclick="registrarEntrega()">
-                    Registrar Entrega
-                </button>
+                        <div class="form-group">
+                            <label>🏗️ Função/Cargo</label>
+                            <input type="text" id="funcao" placeholder="Ex: Operador de Máquina">
+                        </div>
 
+                        <div class="form-group">
+                            <label>📅 Data da Entrega</label>
+                            <input type="date" id="dataEntrega">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>🛡️ Selecione o EPI *</label>
+                            <select id="epiSelect">
+                                <option value="">Selecione um EPI...</option>
+                                <option value="Capacete de Segurança">⛑️ Capacete de Segurança</option>
+                                <option value="Óculos de Proteção">👓 Óculos de Proteção</option>
+                                <option value="Protetor Auricular">🔇 Protetor Auricular</option>
+                                <option value="Máscara Respiratória">😷 Máscara Respiratória</option>
+                                <option value="Luvas de Segurança">🧤 Luvas de Segurança</option>
+                                <option value="Calçado de Segurança">👢 Calçado de Segurança</option>
+                                <option value="Cinto de Segurança">🔗 Cinto de Segurança</option>
+                                <option value="Vestimenta Refletiva">🦺 Vestimenta Refletiva</option>
+                                <option value="Protetor Facial">🛡️ Protetor Facial</option>
+                                <option value="Avental de Segurança">🧪 Avental de Segurança</option>
+                                <option value="Conjunto de Proteção Química">🧬 Conjunto de Proteção Química</option>
+                                <option value="Capuz de Solda">🔥 Capuz de Solda</option>
+                                <option value="Outro">📌 Outro</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>📦 Quantidade *</label>
+                            <input type="number" id="quantidade" value="1" min="1" max="99">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>📝 Observações</label>
+                            <textarea id="observacao" rows="2" placeholder="Observações adicionais sobre a entrega..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="botoes-navegacao">
+                        <button class="btn-proximo" onclick="irParaEtapa(2)">Próximo →</button>
+                    </div>
+                </div>
+
+                <!-- ETAPA 2: SEGURANÇA/TST -->
+                <div class="etapa-container" id="etapa2" style="display:none;">
+                    <h2>🔒 Validação do TST/Segurança</h2>
+                    
+                    <div class="info-resumo">
+                        <div class="resumo-item">
+                            <span class="resumo-label">Funcionário:</span>
+                            <span id="resumoFuncionario">-</span>
+                        </div>
+                        <div class="resumo-item">
+                            <span class="resumo-label">EPI:</span>
+                            <span id="resumoEpi">-</span>
+                        </div>
+                        <div class="resumo-item">
+                            <span class="resumo-label">Quantidade:</span>
+                            <span id="resumoQuantidade">-</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>👷 Responsável pela Entrega (TST/Segurança) *</label>
+                        <input type="text" id="responsavelTST" placeholder="Nome do responsável" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>🆔 Registro do TST</label>
+                        <input type="text" id="registroTST" placeholder="Número do registro profissional">
+                    </div>
+
+                    <div class="form-group">
+                        <label>✅ Confirmação de Entrega</label>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" id="confirmacaoTST">
+                                Confirmo que o EPI foi entregue em perfeitas condições
+                            </label>
+                            <label>
+                                <input type="checkbox" id="treinamentoTST">
+                                O funcionário foi orientado sobre o uso correto
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="botoes-navegacao">
+                        <button class="btn-voltar" onclick="irParaEtapa(1)">← Voltar</button>
+                        <button class="btn-proximo" onclick="irParaEtapa(3)">Próximo →</button>
+                    </div>
+                </div>
+
+                <!-- ETAPA 3: ASSINATURA -->
+                <div class="etapa-container" id="etapa3" style="display:none;">
+                    <h2>✍️ Assinatura do Trabalhador</h2>
+                    
+                    <div class="info-resumo">
+                        <div class="resumo-item">
+                            <span class="resumo-label">Funcionário:</span>
+                            <span id="resumoFuncionario2">-</span>
+                        </div>
+                        <div class="resumo-item">
+                            <span class="resumo-label">EPI:</span>
+                            <span id="resumoEpi2">-</span>
+                        </div>
+                        <div class="resumo-item">
+                            <span class="resumo-label">Responsável:</span>
+                            <span id="resumoResponsavel">-</span>
+                        </div>
+                    </div>
+
+                    <div class="assinatura-area">
+                        <p>Assine abaixo para confirmar o recebimento:</p>
+                        <div class="canvas-wrapper">
+                            <canvas id="canvasAssinatura"></canvas>
+                        </div>
+                        <div class="botoes-assinatura">
+                            <button class="btn-limpar" onclick="limparAssinatura()">🗑️ Limpar</button>
+                            <button class="btn-assinar" onclick="salvarAssinatura()">✍️ Assinar</button>
+                        </div>
+                    </div>
+
+                    <div class="botoes-navegacao">
+                        <button class="btn-voltar" onclick="irParaEtapa(2)">← Voltar</button>
+                        <button class="btn-proximo" onclick="irParaEtapa(4)">Finalizar →</button>
+                    </div>
+                </div>
+
+                <!-- ETAPA 4: CONFIRMAÇÃO -->
+                <div class="etapa-container" id="etapa4" style="display:none;">
+                    <div class="confirmacao-container">
+                        <div class="icone-sucesso">✅</div>
+                        <h2>Entrega Registrada com Sucesso!</h2>
+                        
+                        <div class="confirmacao-detalhes">
+                            <div class="detalhe-item">
+                                <strong>Funcionário:</strong>
+                                <span id="confirmFuncionario">-</span>
+                            </div>
+                            <div class="detalhe-item">
+                                <strong>EPI:</strong>
+                                <span id="confirmEpi">-</span>
+                            </div>
+                            <div class="detalhe-item">
+                                <strong>Quantidade:</strong>
+                                <span id="confirmQuantidade">-</span>
+                            </div>
+                            <div class="detalhe-item">
+                                <strong>Responsável TST:</strong>
+                                <span id="confirmResponsavel">-</span>
+                            </div>
+                            <div class="detalhe-item">
+                                <strong>Data:</strong>
+                                <span id="confirmData">-</span>
+                            </div>
+                            <div class="detalhe-item">
+                                <strong>Status:</strong>
+                                <span class="status-confirmado">✅ ASSINADO E CONFIRMADO</span>
+                            </div>
+                        </div>
+
+                        <div class="botoes-navegacao">
+                            <button class="btn-nova-entrega" onclick="novaEntrega()">📦 Nova Entrega</button>
+                            <button class="btn-dashboard" onclick="abrirPagina('dashboard')">📊 Dashboard</button>
+                        </div>
+                    </div>
+                </div>
             </section>
 
-            <!-- Assinatura -->
-            <section id="assinatura" class="pagina" style="display:none;">
+            <!-- ===== HISTÓRICO ===== -->
+            <section id="historico" class="page" style="display:none;">
+                <div class="page-header">
+                    <h1>📋 Histórico de Entregas</h1>
+                    <p>Registro completo de todas as entregas realizadas</p>
+                </div>
 
-                <h1>Assinatura Digital</h1>
+                <div class="historico-filtros">
+                    <input type="text" id="filtroHistorico" placeholder="🔍 Filtrar por nome, EPI ou responsável...">
+                    <button class="btn-exportar" onclick="exportarCSV()">📊 Exportar CSV</button>
+                </div>
 
-                <canvas id="assinaturaCanvas"></canvas>
-
-                <br><br>
-
-                <button onclick="limparAssinatura()">
-                    Limpar
-                </button>
-
-                <button onclick="salvarAssinatura()">
-                    Salvar
-                </button>
-
+                <div class="tabela-wrapper">
+                    <table class="tabela-historico">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Funcionário</th>
+                                <th>Matrícula</th>
+                                <th>EPI</th>
+                                <th>Qtd</th>
+                                <th>Responsável TST</th>
+                                <th>Assinatura</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listaHistorico">
+                            <tr>
+                                <td colspan="8" class="sem-registros">Nenhum registro encontrado.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
-            <!-- Emergência -->
-            <section id="emergencia" class="pagina" style="display:none;">
+            <!-- ===== EMERGÊNCIA ===== -->
+            <section id="emergencia" class="page" style="display:none;">
+                <div class="page-header">
+                    <h1>🚨 Emergência</h1>
+                    <p>Botão de emergência com sirene</p>
+                </div>
 
-                <h1>Emergência</h1>
+                <div class="emergencia-container">
+                    <button id="btnEmergencia" class="botao-emergencia">
+                        🆘 EMERGÊNCIA
+                    </button>
+                    <p class="emergencia-info">Clique no botão acima para acionar a sirene de emergência</p>
+                    <audio id="sireneAudio" src="../sirene.mp3" preload="auto"></audio>
+                </div>
 
-                <button class="botao-emergencia" onclick="acionarEmergencia()">
-                    🚨 ACIONAR EMERGÊNCIA
-                </button>
-
-                <audio id="sirene" src="../sirene.mp3"></audio>
-
-            </section>
-
-            <!-- Histórico -->
-            <section id="historico" class="pagina" style="display:none;">
-
-                <h1>Histórico</h1>
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-                            <th>Data</th>
-                            <th>Funcionário</th>
-                            <th>EPI</th>
-                            <th>Status</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="tabelaHistorico">
-
-                    </tbody>
-
-                </table>
-
+                <div class="emergencia-registros">
+                    <h3>Últimas Ocorrências</h3>
+                    <div id="listaEmergencias">
+                        <p class="sem-registros">Nenhuma ocorrência registrada.</p>
+                    </div>
+                </div>
             </section>
 
         </main>
+    </div>
 
-    </section>
-
+    <!-- ==================== SCRIPTS ==================== -->
     <script src="../totem/totem/totem/js/login.js"></script>
     <script src="../totem/totem/totem/js/app.js"></script>
     <script src="../totem/totem/totem/js/epi.js"></script>
