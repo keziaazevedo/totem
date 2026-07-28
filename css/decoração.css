@@ -1,0 +1,322 @@
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#e6e6e6;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#0057b8;
+    border-radius:10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#003d80;
+}
+
+/* Fundo escuro do login */
+
+#login{
+    position:relative;
+}
+
+#login::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    backdrop-filter:blur(2px);
+
+}
+
+.login-box{
+
+    position:relative;
+
+    z-index:2;
+
+    backdrop-filter:blur(10px);
+
+    background:rgba(255,255,255,.95);
+
+}
+
+/* Linha azul abaixo do título */
+
+.login-box h1::after{
+
+    content:"";
+
+    display:block;
+
+    width:70px;
+
+    height:4px;
+
+    background:#0057b8;
+
+    margin:12px auto;
+
+    border-radius:20px;
+
+}
+
+/* Campos */
+
+input{
+
+    transition:.25s;
+
+}
+
+input:hover{
+
+    border-color:#0057b8;
+
+}
+
+input:focus{
+
+    box-shadow:0 0 10px rgba(0,87,184,.3);
+
+}
+
+/* Botões */
+
+button{
+
+    transition:.25s;
+
+    font-weight:bold;
+
+}
+
+button:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 18px rgba(0,0,0,.15);
+
+}
+
+button:active{
+
+    transform:scale(.98);
+
+}
+
+/* Menu */
+
+.menu{
+
+    box-shadow:5px 0 20px rgba(0,0,0,.2);
+
+}
+
+.menu button{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.menu button::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:-100%;
+
+    top:0;
+
+    width:100%;
+
+    height:100%;
+
+    background:rgba(255,255,255,.15);
+
+    transition:.4s;
+
+}
+
+.menu button:hover::before{
+
+    left:100%;
+
+}
+
+/* Área principal */
+
+.conteudo{
+
+    background:linear-gradient(
+        180deg,
+        #f8f9fb,
+        #eef3f8
+    );
+
+}
+
+/* Cards */
+
+.card{
+
+    transition:.3s;
+
+    border-left:6px solid #0057b8;
+
+}
+
+.card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 20px 35px rgba(0,0,0,.15);
+
+}
+
+.card span{
+
+    text-shadow:1px 1px 2px rgba(0,0,0,.1);
+
+}
+
+/* Tabela */
+
+table{
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+tbody tr{
+
+    transition:.2s;
+
+}
+
+tbody tr:nth-child(even){
+
+    background:#f8f8f8;
+
+}
+
+tbody tr:hover{
+
+    background:#e8f2ff;
+
+}
+
+/* Botão Emergência */
+
+.botao-emergencia{
+
+    box-shadow:0 0 25px rgba(255,0,0,.4);
+
+    animation:pulsar 2s infinite;
+
+}
+
+@keyframes pulsar{
+
+    0%{
+
+        box-shadow:0 0 0 rgba(255,0,0,.6);
+
+    }
+
+    50%{
+
+        box-shadow:0 0 35px rgba(255,0,0,1);
+
+    }
+
+    100%{
+
+        box-shadow:0 0 0 rgba(255,0,0,.6);
+
+    }
+
+}
+
+/* Canvas */
+
+#assinaturaCanvas{
+
+    box-shadow:0 10px 20px rgba(0,0,0,.1);
+
+}
+
+/* Títulos */
+
+h1{
+
+    color:#003366;
+
+}
+
+h2{
+
+    color:white;
+
+}
+
+h3{
+
+    color:#004b99;
+
+}
+
+/* Logo */
+
+.logo{
+
+    transition:.4s;
+
+}
+
+.logo:hover{
+
+    transform:rotate(-5deg) scale(1.05);
+
+}
+
+/* Página */
+
+.pagina{
+
+    animation:entrada .5s ease;
+
+}
+
+@keyframes entrada{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
