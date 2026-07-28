@@ -99,17 +99,6 @@
             z-index: -1;
         }
 
-        .login-box::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            right: -30px;
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle, rgba(76, 175, 80, 0.05), transparent 70%);
-            pointer-events: none;
-        }
-
         .login-header {
             text-align: center;
             margin-bottom: 35px;
@@ -366,11 +355,6 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
         }
 
         .etapa-wrapper {
@@ -792,10 +776,10 @@
 
         .btn-limpar {
             padding: 12px 30px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 2px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid rgba(255, 0, 0, 0.2);
             border-radius: 12px;
-            color: #889988;
+            color: #ef9a9a;
             cursor: pointer;
             transition: all 0.3s;
             font-weight: 600;
@@ -803,9 +787,10 @@
         }
 
         .btn-limpar:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.12);
-            color: #e8f5e9;
+            background: rgba(255, 0, 0, 0.2);
+            border-color: rgba(255, 0, 0, 0.4);
+            color: #ffcdd2;
+            transform: scale(1.02);
         }
 
         .btn-assinar {
@@ -881,7 +866,7 @@
         }
 
         /* ============================================================
-           FINALIZAÇÃO / HISTÓRICO
+           FINALIZAÇÃO
            ============================================================ */
         .historico-content {
             max-width: 650px;
@@ -1024,7 +1009,7 @@
         }
 
         /* ============================================================
-           MODAL DO HISTÓRICO
+           MODAL DO HISTÓRICO COM SENHA
            ============================================================ */
         .modal-historico {
             display: none;
@@ -1038,19 +1023,19 @@
             padding: 30px;
             backdrop-filter: blur(10px);
             animation: fadeIn 0.3s ease;
+            align-items: center;
+            justify-content: center;
         }
 
         .modal-historico.active {
             display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .modal-conteudo {
             background: rgba(18, 32, 18, 0.95);
             border-radius: 24px;
             border: 2px solid rgba(76, 175, 80, 0.15);
-            max-width: 900px;
+            max-width: 950px;
             width: 100%;
             max-height: 85vh;
             padding: 35px;
@@ -1078,6 +1063,8 @@
             margin-bottom: 25px;
             padding-bottom: 15px;
             border-bottom: 2px solid rgba(76, 175, 80, 0.1);
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .modal-header h2 {
@@ -1087,6 +1074,12 @@
 
         .modal-header h2 span {
             color: #4CAF50;
+        }
+
+        .modal-header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .btn-fechar-modal {
@@ -1105,6 +1098,113 @@
             color: #e8f5e9;
         }
 
+        .btn-exportar-pdf {
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #c62828, #e53935);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-exportar-pdf:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(198, 40, 40, 0.3);
+        }
+
+        .btn-excluir-historico {
+            padding: 8px 20px;
+            background: rgba(255, 0, 0, 0.15);
+            border: 2px solid rgba(255, 0, 0, 0.2);
+            border-radius: 10px;
+            color: #ef9a9a;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-excluir-historico:hover {
+            background: rgba(255, 0, 0, 0.25);
+            border-color: rgba(255, 0, 0, 0.4);
+            color: #ffcdd2;
+        }
+
+        /* Tela de senha do histórico */
+        .historico-senha-area {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .historico-senha-area p {
+            color: #889988;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .historico-senha-area input {
+            width: 100%;
+            max-width: 300px;
+            padding: 14px 18px;
+            border: 2px solid rgba(76, 175, 80, 0.2);
+            border-radius: 14px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            color: #e8f5e9;
+            outline: none;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .historico-senha-area input:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1);
+        }
+
+        .historico-senha-area .btn-senha {
+            margin-top: 15px;
+            padding: 12px 40px;
+            background: linear-gradient(135deg, #2d7a3a, #4CAF50);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .historico-senha-area .btn-senha:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+        }
+
+        .historico-senha-area .erro-senha {
+            color: #ef9a9a;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .historico-senha-area .erro-senha.visible {
+            display: block;
+        }
+
+        /* Lista do histórico */
+        .historico-lista-container {
+            display: none;
+        }
+
+        .historico-lista-container.visible {
+            display: block;
+        }
+
         .modal-historico-lista {
             display: flex;
             flex-direction: column;
@@ -1113,7 +1213,7 @@
 
         .historico-item {
             display: grid;
-            grid-template-columns: 100px 120px 100px 80px 100px 1fr;
+            grid-template-columns: 100px 120px 100px 90px 100px 1fr;
             gap: 10px;
             padding: 12px 16px;
             background: rgba(255, 255, 255, 0.02);
@@ -1137,7 +1237,7 @@
             font-weight: 600;
             font-size: 14px;
         }
-        .historico-item .h-matricula {
+        .historico-item .h-codigo {
             color: #889988;
             font-size: 13px;
         }
@@ -1155,10 +1255,6 @@
             font-size: 13px;
             font-weight: 600;
             text-align: right;
-        }
-
-        .historico-item .h-status.assinado {
-            color: #81C784;
         }
 
         .historico-vazio {
@@ -1294,6 +1390,15 @@
                 font-size: 18px;
             }
 
+            .modal-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .modal-header-actions {
+                flex-direction: column;
+            }
+
             .btn-historico-flutuante {
                 bottom: 15px;
                 right: 15px;
@@ -1380,7 +1485,7 @@
 </head>
 <body>
 
-    <!-- ==================== TELA DE LOGIN ==================== -->
+    <!-- ==================== TELA DE LOGIN (SEMPRE VISÍVEL INICIALMENTE) ==================== -->
     <div id="loginScreen" class="login-container">
         <div class="login-box">
             <div class="login-header">
@@ -1396,8 +1501,8 @@
                 </div>
                 
                 <div class="form-group">
-                    <label>🆔 Matrícula / CPF</label>
-                    <input type="text" id="matriculaTrabalhador" placeholder="Digite sua matrícula ou CPF">
+                    <label>🔑 Código do Trabalhador</label>
+                    <input type="text" id="codigoTrabalhador" placeholder="Digite seu código de acesso">
                 </div>
 
                 <div class="form-group">
@@ -1428,7 +1533,7 @@
             <div class="totem-header-right">
                 <span class="trabalhador-info">
                     👤 <strong id="headerTrabalhador">-</strong>
-                    <span id="headerMatricula">-</span>
+                    <span id="headerCodigo">-</span>
                 </span>
             </div>
         </header>
@@ -1452,8 +1557,8 @@
                                 <span id="resumoNome" class="resumo-valor">-</span>
                             </div>
                             <div class="resumo-item">
-                                <span class="resumo-label">🆔 Matrícula</span>
-                                <span id="resumoMatricula" class="resumo-valor">-</span>
+                                <span class="resumo-label">🔑 Código</span>
+                                <span id="resumoCodigo" class="resumo-valor">-</span>
                             </div>
                         </div>
 
@@ -1621,8 +1726,8 @@
                                 <span class="detalhe-valor" id="histNome">-</span>
                             </div>
                             <div class="detalhe-final">
-                                <span class="detalhe-label">🆔 Matrícula</span>
-                                <span class="detalhe-valor" id="histMatricula">-</span>
+                                <span class="detalhe-label">🔑 Código</span>
+                                <span class="detalhe-valor" id="histCodigo">-</span>
                             </div>
                             <div class="detalhe-final">
                                 <span class="detalhe-label">🛡️ EPI</span>
@@ -1669,15 +1774,32 @@
         <span class="badge" id="historicoBadge">0</span>
     </button>
 
-    <!-- ==================== MODAL DO HISTÓRICO ==================== -->
+    <!-- ==================== MODAL DO HISTÓRICO COM SENHA ==================== -->
     <div id="modalHistorico" class="modal-historico">
         <div class="modal-conteudo">
             <div class="modal-header">
                 <h2>📋 Histórico de <span>Entregas</span></h2>
-                <button class="btn-fechar-modal" onclick="fecharHistorico()">✕ Fechar</button>
+                <div class="modal-header-actions">
+                    <button class="btn-exportar-pdf" onclick="exportarPDF()">📄 Exportar PDF</button>
+                    <button class="btn-excluir-historico" onclick="excluirHistorico()">🗑️ Excluir Histórico</button>
+                    <button class="btn-fechar-modal" onclick="fecharHistorico()">✕ Fechar</button>
+                </div>
             </div>
-            <div id="listaHistorico" class="modal-historico-lista">
-                <!-- Lista gerada pelo JavaScript -->
+
+            <!-- Tela de Senha -->
+            <div id="senhaHistoricoArea" class="historico-senha-area">
+                <p>🔒 Digite a senha para visualizar o histórico</p>
+                <input type="password" id="senhaHistorico" placeholder="Digite a senha" maxlength="10">
+                <br>
+                <button class="btn-senha" onclick="verificarSenhaHistorico()">🔓 Desbloquear</button>
+                <div id="erroSenha" class="erro-senha">❌ Senha incorreta! Tente novamente.</div>
+            </div>
+
+            <!-- Lista do Histórico -->
+            <div id="historicoListaContainer" class="historico-lista-container">
+                <div id="listaHistorico" class="modal-historico-lista">
+                    <!-- Lista gerada pelo JavaScript -->
+                </div>
             </div>
         </div>
     </div>
@@ -1689,28 +1811,25 @@
         const app = {
             dadosSolicitacao: {},
             registros: [],
+            senhaHistorico: '1234',
+            historicoDesbloqueado: false,
 
             init() {
+                // CARREGAR REGISTROS SEMPRE
                 this.carregarRegistros();
                 this.atualizarBadge();
-                
-                // Verificar se já está logado
-                const nome = localStorage.getItem('trabalhadorNome');
-                if (nome) {
-                    document.getElementById('loginScreen').style.display = 'none';
-                    document.getElementById('sistema').style.display = 'flex';
-                    this.atualizarHeader();
-                    this.atualizarResumo();
-                    this.mostrarEtapa('etapaSolicitar');
-                }
+
+                // SEMPRE MOSTRAR A TELA DE LOGIN PRIMEIRO
+                document.getElementById('loginScreen').style.display = 'flex';
+                document.getElementById('sistema').style.display = 'none';
 
                 // Configurar botão de login
                 document.getElementById('btnIniciar').addEventListener('click', () => {
                     this.iniciarSolicitacao();
                 });
 
-                // Enter para avançar
-                document.getElementById('matriculaTrabalhador').addEventListener('keypress', (e) => {
+                // Enter para avançar no login
+                document.getElementById('codigoTrabalhador').addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         this.iniciarSolicitacao();
@@ -1720,11 +1839,19 @@
                 document.getElementById('nomeTrabalhador').addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {
                         e.preventDefault();
-                        document.getElementById('matriculaTrabalhador').focus();
+                        document.getElementById('codigoTrabalhador').focus();
                     }
                 });
 
-                // Foco inicial
+                // Enter para senha do histórico
+                document.getElementById('senhaHistorico').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        this.verificarSenhaHistorico();
+                    }
+                });
+
+                // Foco inicial no nome
                 document.getElementById('nomeTrabalhador').focus();
 
                 // Fechar modal com ESC
@@ -1740,6 +1867,11 @@
                         fecharHistorico();
                     }
                 });
+
+                // Limpar dados de sessão ao carregar a página
+                localStorage.removeItem('trabalhadorNome');
+                localStorage.removeItem('trabalhadorCodigo');
+                localStorage.removeItem('trabalhadorFuncao');
             },
 
             carregarRegistros() {
@@ -1761,21 +1893,21 @@
 
             atualizarHeader() {
                 const nome = localStorage.getItem('trabalhadorNome') || '-';
-                const matricula = localStorage.getItem('trabalhadorMatricula') || '-';
+                const codigo = localStorage.getItem('trabalhadorCodigo') || '-';
                 document.getElementById('headerTrabalhador').textContent = nome;
-                document.getElementById('headerMatricula').textContent = matricula;
+                document.getElementById('headerCodigo').textContent = codigo;
             },
 
             atualizarResumo() {
                 const nome = localStorage.getItem('trabalhadorNome') || '-';
-                const matricula = localStorage.getItem('trabalhadorMatricula') || '-';
+                const codigo = localStorage.getItem('trabalhadorCodigo') || '-';
                 document.getElementById('resumoNome').textContent = nome;
-                document.getElementById('resumoMatricula').textContent = matricula;
+                document.getElementById('resumoCodigo').textContent = codigo;
             },
 
             iniciarSolicitacao() {
                 const nome = document.getElementById('nomeTrabalhador').value.trim();
-                const matricula = document.getElementById('matriculaTrabalhador').value.trim();
+                const codigo = document.getElementById('codigoTrabalhador').value.trim();
                 const funcao = document.getElementById('funcaoTrabalhador').value.trim();
                 const erro = document.getElementById('mensagemErro');
 
@@ -1786,19 +1918,20 @@
                     return;
                 }
 
-                if (!matricula) {
-                    erro.textContent = '❌ Por favor, informe sua matrícula!';
+                if (!codigo) {
+                    erro.textContent = '❌ Por favor, informe seu código!';
                     erro.style.display = 'block';
-                    document.getElementById('matriculaTrabalhador').focus();
+                    document.getElementById('codigoTrabalhador').focus();
                     return;
                 }
 
                 erro.style.display = 'none';
 
                 localStorage.setItem('trabalhadorNome', nome);
-                localStorage.setItem('trabalhadorMatricula', matricula);
+                localStorage.setItem('trabalhadorCodigo', codigo);
                 localStorage.setItem('trabalhadorFuncao', funcao);
 
+                // Mostrar sistema e esconder login
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('sistema').style.display = 'flex';
 
@@ -1830,40 +1963,55 @@
                 const canvas = document.getElementById('canvasAssinatura');
                 if (!canvas) return;
 
-                const ctx = canvas.getContext('2d');
-                const wrapper = canvas.parentElement;
+                // Remover event listeners antigos
+                const novoCanvas = canvas.cloneNode(true);
+                canvas.parentNode.replaceChild(novoCanvas, canvas);
+                
+                const ctx = novoCanvas.getContext('2d');
+                const wrapper = novoCanvas.parentElement;
                 const width = Math.min(wrapper.clientWidth - 6, 600);
                 const height = 200;
 
-                canvas.width = width;
-                canvas.height = height;
-                canvas.style.width = width + 'px';
-                canvas.style.height = height + 'px';
+                novoCanvas.width = width;
+                novoCanvas.height = height;
+                novoCanvas.style.width = width + 'px';
+                novoCanvas.style.height = height + 'px';
 
-                ctx.fillStyle = 'rgba(255,255,255,0.02)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.strokeStyle = 'rgba(76, 175, 80, 0.15)';
-                ctx.lineWidth = 1;
-                ctx.strokeRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'rgba(85, 102, 85, 0.3)';
-                ctx.font = '16px Arial';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText('Assine aqui', canvas.width / 2, canvas.height / 2);
+                const limparCanvas = function() {
+                    ctx.fillStyle = 'rgba(255,255,255,0.02)';
+                    ctx.fillRect(0, 0, novoCanvas.width, novoCanvas.height);
+                    ctx.strokeStyle = 'rgba(76, 175, 80, 0.15)';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(0, 0, novoCanvas.width, novoCanvas.height);
+                    ctx.fillStyle = 'rgba(85, 102, 85, 0.3)';
+                    ctx.font = '16px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('Assine aqui', novoCanvas.width / 2, novoCanvas.height / 2);
+                    
+                    const statusEl = document.getElementById('assinaturaStatus');
+                    if (statusEl) {
+                        statusEl.style.display = 'none';
+                        statusEl.className = 'assinatura-status';
+                    }
+                };
 
                 let desenhando = false;
                 let ultimoX = 0;
                 let ultimoY = 0;
 
                 function obterPosicao(e) {
-                    const rect = canvas.getBoundingClientRect();
+                    const rect = novoCanvas.getBoundingClientRect();
+                    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
                     return {
-                        x: e.clientX - rect.left,
-                        y: e.clientY - rect.top
+                        x: clientX - rect.left,
+                        y: clientY - rect.top
                     };
                 }
 
                 function iniciarDesenho(e) {
+                    e.preventDefault();
                     desenhando = true;
                     const pos = obterPosicao(e);
                     ultimoX = pos.x;
@@ -1873,6 +2021,7 @@
                 }
 
                 function desenhar(e) {
+                    e.preventDefault();
                     if (!desenhando) return;
                     const pos = obterPosicao(e);
                     ctx.beginPath();
@@ -1887,53 +2036,25 @@
                     ultimoY = pos.y;
                 }
 
-                function pararDesenho() {
+                function pararDesenho(e) {
+                    if (e) e.preventDefault();
                     desenhando = false;
                 }
 
-                canvas.addEventListener('mousedown', iniciarDesenho);
-                canvas.addEventListener('mousemove', desenhar);
-                canvas.addEventListener('mouseup', pararDesenho);
-                canvas.addEventListener('mouseleave', pararDesenho);
+                novoCanvas.addEventListener('mousedown', iniciarDesenho);
+                novoCanvas.addEventListener('mousemove', desenhar);
+                novoCanvas.addEventListener('mouseup', pararDesenho);
+                novoCanvas.addEventListener('mouseleave', pararDesenho);
 
-                canvas.addEventListener('touchstart', (e) => {
-                    e.preventDefault();
-                    const touch = e.touches[0];
-                    const mouseEvent = new MouseEvent('mousedown', {
-                        clientX: touch.clientX,
-                        clientY: touch.clientY
-                    });
-                    canvas.dispatchEvent(mouseEvent);
-                });
+                novoCanvas.addEventListener('touchstart', iniciarDesenho, { passive: false });
+                novoCanvas.addEventListener('touchmove', desenhar, { passive: false });
+                novoCanvas.addEventListener('touchend', pararDesenho, { passive: false });
+                novoCanvas.addEventListener('touchcancel', pararDesenho, { passive: false });
 
-                canvas.addEventListener('touchmove', (e) => {
-                    e.preventDefault();
-                    const touch = e.touches[0];
-                    const mouseEvent = new MouseEvent('mousemove', {
-                        clientX: touch.clientX,
-                        clientY: touch.clientY
-                    });
-                    canvas.dispatchEvent(mouseEvent);
-                });
-
-                canvas.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    pararDesenho();
-                });
-
-                canvas._ctx = ctx;
-                canvas._limpar = () => {
-                    ctx.fillStyle = 'rgba(255,255,255,0.02)';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    ctx.strokeStyle = 'rgba(76, 175, 80, 0.15)';
-                    ctx.lineWidth = 1;
-                    ctx.strokeRect(0, 0, canvas.width, canvas.height);
-                    ctx.fillStyle = 'rgba(85, 102, 85, 0.3)';
-                    ctx.font = '16px Arial';
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillText('Assine aqui', canvas.width / 2, canvas.height / 2);
-                };
+                novoCanvas._limpar = limparCanvas;
+                window._limparAssinaturaGlobal = limparCanvas;
+                
+                limparCanvas();
             },
 
             irParaValidacao() {
@@ -1949,7 +2070,7 @@
 
                 this.dadosSolicitacao = {
                     nome: document.getElementById('resumoNome').textContent,
-                    matricula: document.getElementById('resumoMatricula').textContent,
+                    codigo: document.getElementById('resumoCodigo').textContent,
                     epi: epi,
                     quantidade: parseInt(quantidade),
                     observacao: observacao
@@ -2017,7 +2138,7 @@
                     data: new Date().toISOString().split('T')[0],
                     hora: new Date().toLocaleTimeString('pt-BR'),
                     funcionario: this.dadosSolicitacao.nome,
-                    matricula: this.dadosSolicitacao.matricula,
+                    codigo: this.dadosSolicitacao.codigo,
                     funcao: localStorage.getItem('trabalhadorFuncao') || '-',
                     epi: this.dadosSolicitacao.epi,
                     quantidade: this.dadosSolicitacao.quantidade,
@@ -2033,7 +2154,7 @@
                 this.salvarRegistros();
 
                 document.getElementById('histNome').textContent = registro.funcionario;
-                document.getElementById('histMatricula').textContent = registro.matricula;
+                document.getElementById('histCodigo').textContent = registro.codigo;
                 document.getElementById('histEpi').textContent = registro.epi;
                 document.getElementById('histQtd').textContent = registro.quantidade;
                 document.getElementById('histTST').textContent = registro.responsavelTST;
@@ -2053,9 +2174,19 @@
                 document.getElementById('confirmacaoTST').checked = false;
                 document.getElementById('treinamentoTST').checked = false;
 
-                const canvas = document.getElementById('canvasAssinatura');
-                if (canvas && canvas._limpar) {
-                    canvas._limpar();
+                if (typeof window._limparAssinaturaGlobal === 'function') {
+                    window._limparAssinaturaGlobal();
+                } else {
+                    const canvas = document.getElementById('canvasAssinatura');
+                    if (canvas && canvas._limpar) {
+                        canvas._limpar();
+                    }
+                }
+
+                const statusEl = document.getElementById('assinaturaStatus');
+                if (statusEl) {
+                    statusEl.style.display = 'none';
+                    statusEl.className = 'assinatura-status';
                 }
 
                 this.mostrarEtapa('etapaSolicitar');
@@ -2065,18 +2196,38 @@
             sairTotem() {
                 if (confirm('Deseja sair do totem? O próximo trabalhador poderá usar.')) {
                     localStorage.removeItem('trabalhadorNome');
-                    localStorage.removeItem('trabalhadorMatricula');
+                    localStorage.removeItem('trabalhadorCodigo');
                     localStorage.removeItem('trabalhadorFuncao');
                     
                     document.getElementById('sistema').style.display = 'none';
                     document.getElementById('loginScreen').style.display = 'flex';
                     
                     document.getElementById('nomeTrabalhador').value = '';
-                    document.getElementById('matriculaTrabalhador').value = '';
+                    document.getElementById('codigoTrabalhador').value = '';
                     document.getElementById('funcaoTrabalhador').value = '';
                     document.getElementById('mensagemErro').style.display = 'none';
                     
                     document.getElementById('nomeTrabalhador').focus();
+                }
+            },
+
+            verificarSenhaHistorico() {
+                const senha = document.getElementById('senhaHistorico').value.trim();
+                const erro = document.getElementById('erroSenha');
+
+                if (senha === this.senhaHistorico) {
+                    erro.classList.remove('visible');
+                    document.getElementById('senhaHistoricoArea').style.display = 'none';
+                    document.getElementById('historicoListaContainer').classList.add('visible');
+                    this.historicoDesbloqueado = true;
+                    this.renderizarHistorico();
+                } else {
+                    erro.classList.add('visible');
+                    document.getElementById('senhaHistorico').value = '';
+                    document.getElementById('senhaHistorico').focus();
+                    setTimeout(() => {
+                        erro.classList.remove('visible');
+                    }, 3000);
                 }
             },
 
@@ -2099,12 +2250,134 @@
                     <div class="historico-item">
                         <span class="h-data">${r.data} ${r.hora || ''}</span>
                         <span class="h-nome">${r.funcionario}</span>
-                        <span class="h-matricula">${r.matricula}</span>
+                        <span class="h-codigo">${r.codigo}</span>
                         <span class="h-epi">${r.epi}</span>
                         <span class="h-tst">${r.responsavelTST}</span>
-                        <span class="h-status assinado">✅ Assinado</span>
+                        <span class="h-status">✅ Assinado</span>
                     </div>
                 `).join('');
+            },
+
+            resetarHistorico() {
+                document.getElementById('senhaHistoricoArea').style.display = 'block';
+                document.getElementById('historicoListaContainer').classList.remove('visible');
+                document.getElementById('senhaHistorico').value = '';
+                document.getElementById('erroSenha').classList.remove('visible');
+                this.historicoDesbloqueado = false;
+            },
+
+            exportarPDF() {
+                if (!this.historicoDesbloqueado) {
+                    alert('🔒 Por favor, desbloqueie o histórico com a senha primeiro!');
+                    return;
+                }
+
+                if (this.registros.length === 0) {
+                    alert('📭 Não há registros para exportar!');
+                    return;
+                }
+
+                let htmlContent = `
+                    <html>
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>Histórico de Entregas - EPIs</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; padding: 30px; }
+                            h1 { color: #1a472a; text-align: center; border-bottom: 3px solid #4CAF50; padding-bottom: 10px; }
+                            .info { text-align: center; color: #666; margin-bottom: 20px; }
+                            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                            th { background: #1a472a; color: white; padding: 12px; text-align: left; }
+                            td { padding: 10px 12px; border-bottom: 1px solid #ddd; }
+                            tr:hover { background: #f5f5f5; }
+                            .status { color: #4CAF50; font-weight: bold; }
+                            .footer { text-align: center; margin-top: 30px; color: #999; font-size: 12px; border-top: 1px solid #ddd; padding-top: 15px; }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>📋 Histórico de Entregas de EPIs</h1>
+                        <div class="info">
+                            <p>Total de registros: <strong>${this.registros.length}</strong></p>
+                            <p>Gerado em: ${new Date().toLocaleString('pt-BR')}</p>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Funcionário</th>
+                                    <th>Código</th>
+                                    <th>EPI</th>
+                                    <th>Qtd</th>
+                                    <th>TST</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                const registrosOrdenados = [...this.registros].reverse();
+                registrosOrdenados.forEach(r => {
+                    htmlContent += `
+                        <tr>
+                            <td>${r.data} ${r.hora || ''}</td>
+                            <td>${r.funcionario}</td>
+                            <td>${r.codigo}</td>
+                            <td>${r.epi}</td>
+                            <td>${r.quantidade}</td>
+                            <td>${r.responsavelTST}</td>
+                            <td class="status">✅ Assinado</td>
+                        </tr>
+                    `;
+                });
+
+                htmlContent += `
+                            </tbody>
+                        </table>
+                        <div class="footer">
+                            <p>Sistema de Controle de EPIs - Totem de Autoatendimento</p>
+                            <p>Documento gerado automaticamente</p>
+                        </div>
+                    </body>
+                    </html>
+                `;
+
+                const blob = new Blob([htmlContent], { type: 'text/html' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `historico_epi_${new Date().toISOString().split('T')[0]}.html`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+                
+                alert('✅ PDF do histórico exportado com sucesso!');
+            },
+
+            excluirHistorico() {
+                if (!this.historicoDesbloqueado) {
+                    alert('🔒 Por favor, desbloqueie o histórico com a senha primeiro!');
+                    return;
+                }
+
+                if (this.registros.length === 0) {
+                    alert('📭 Não há registros para excluir!');
+                    return;
+                }
+
+                if (confirm('⚠️ ATENÇÃO! Isso irá excluir permanentemente TODO o histórico.\n\nDeseja continuar?')) {
+                    if (confirm('🔒 Confirme a exclusão:')) {
+                        const senhaConfirmacao = prompt('Digite a senha para confirmar a exclusão:');
+                        if (senhaConfirmacao === this.senhaHistorico) {
+                            this.registros = [];
+                            this.salvarRegistros();
+                            this.renderizarHistorico();
+                            this.atualizarBadge();
+                            alert('✅ Histórico excluído com sucesso!');
+                        } else {
+                            alert('❌ Senha incorreta! Operação cancelada.');
+                        }
+                    }
+                }
             }
         };
 
@@ -2120,9 +2393,56 @@
         function sairTotem() { if (app) app.sairTotem(); }
 
         function limparAssinatura() {
+            if (typeof window._limparAssinaturaGlobal === 'function') {
+                window._limparAssinaturaGlobal();
+                const statusEl = document.getElementById('assinaturaStatus');
+                if (statusEl) {
+                    statusEl.style.display = 'none';
+                    statusEl.className = 'assinatura-status';
+                }
+                return;
+            }
+
             const canvas = document.getElementById('canvasAssinatura');
-            if (canvas && canvas._limpar) {
-                canvas._limpar();
+            if (canvas) {
+                if (canvas._limpar) {
+                    canvas._limpar();
+                } else {
+                    const wrapper = canvas.parentElement;
+                    if (wrapper) {
+                        const novoCanvas = document.createElement('canvas');
+                        novoCanvas.id = 'canvasAssinatura';
+                        const width = Math.min(wrapper.clientWidth - 6, 600);
+                        const height = 200;
+                        novoCanvas.width = width;
+                        novoCanvas.height = height;
+                        novoCanvas.style.width = width + 'px';
+                        novoCanvas.style.height = height + 'px';
+                        
+                        const ctx = novoCanvas.getContext('2d');
+                        ctx.fillStyle = 'rgba(255,255,255,0.02)';
+                        ctx.fillRect(0, 0, novoCanvas.width, novoCanvas.height);
+                        ctx.strokeStyle = 'rgba(76, 175, 80, 0.15)';
+                        ctx.lineWidth = 1;
+                        ctx.strokeRect(0, 0, novoCanvas.width, novoCanvas.height);
+                        ctx.fillStyle = 'rgba(85, 102, 85, 0.3)';
+                        ctx.font = '16px Arial';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText('Assine aqui', novoCanvas.width / 2, novoCanvas.height / 2);
+                        
+                        wrapper.replaceChild(novoCanvas, canvas);
+                        setTimeout(() => {
+                            if (app) app.iniciarAssinatura();
+                        }, 100);
+                    }
+                }
+            }
+
+            const statusEl = document.getElementById('assinaturaStatus');
+            if (statusEl) {
+                statusEl.style.display = 'none';
+                statusEl.className = 'assinatura-status';
             }
         }
 
@@ -2148,15 +2468,36 @@
         function abrirHistorico() {
             if (app) {
                 app.carregarRegistros();
-                app.renderizarHistorico();
+                app.resetarHistorico();
             }
             document.getElementById('modalHistorico').classList.add('active');
             document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                document.getElementById('senhaHistorico').focus();
+            }, 300);
         }
 
         function fecharHistorico() {
             document.getElementById('modalHistorico').classList.remove('active');
             document.body.style.overflow = '';
+        }
+
+        function verificarSenhaHistorico() {
+            if (app) {
+                app.verificarSenhaHistorico();
+            }
+        }
+
+        function exportarPDF() {
+            if (app) {
+                app.exportarPDF();
+            }
+        }
+
+        function excluirHistorico() {
+            if (app) {
+                app.excluirHistorico();
+            }
         }
 
         // ============================================================
