@@ -1,27 +1,32 @@
 // js/login.js
-// Sistema de login com usuário demo
-
 const login = {
-    usuarioPadrao: 'admin',
+    usuarioPadrao: 'seguranca',
     senhaPadrao: '123456',
 
     init() {
-        this.configurarEventos();
-        this.verificarSessao();
-    },
-
-    configurarEventos() {
-        const form = document.getElementById('loginForm');
-        if (form) {
-            form.addEventListener('submit', (e) => {
+        const btnLogin = document.getElementById('btnLogin');
+        if (btnLogin) {
+            btnLogin.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.fazerLogin();
             });
         }
+
+        // Enter para login
+        const senhaInput = document.getElementById('senha');
+        if (senhaInput) {
+            senhaInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.fazerLogin();
+                }
+            });
+        }
+
+        this.verificarSessao();
     },
 
     verificarSessao() {
-        // Verifica se já está logado
         const logado = localStorage.getItem('logado');
         if (logado === 'true') {
             this.mostrarSistema();
@@ -29,58 +34,46 @@ const login = {
     },
 
     fazerLogin() {
-        const usuario = document.getElementById('usuario')?.value || '';
-        const senha = document.getElementById('senha')?.value || '';
-        const mensagem = document.getElementById('mensagemErro');
+        const usuario = document.getElementById('usuario').value;
+        const senha = document.getElementById('senha').value;
+        const mensagemErro = document.getElementById('mensagemErro');
 
         if (usuario === this.usuarioPadrao && senha === this.senhaPadrao) {
             localStorage.setItem('logado', 'true');
             localStorage.setItem('usuario', usuario);
             this.mostrarSistema();
         } else {
-            if (mensagem) {
-                mensagem.textContent = '❌ Usuário ou senha incorretos!';
-                mensagem.style.display = 'block';
-                setTimeout(() => {
-                    mensagem.style.display = 'none';
-                }, 3000);
-            }
-            alert('Usuário ou senha incorretos!\n\nDica: admin / 123456');
+            mensagemErro.textContent = '❌ Usuário ou senha incorretos! Tente novamente.';
+            mensagemErro.style.display = 'block';
+            setTimeout(() => {
+                mensagemErro.style.display = 'none';
+            }, 4000);
         }
     },
 
     mostrarSistema() {
-        const loginScreen = document.getElementById('loginScreen');
-        const sistema = document.getElementById('sistema');
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('sistema').style.display = 'flex';
+        document.getElementById('usuarioLogado').textContent = localStorage.getItem('usuario');
         
-        if (loginScreen) loginScreen.style.display = 'none';
-        if (sistema) {
-            sistema.style.display = 'flex';
-            // Inicializa o sistema após mostrar
-            if (typeof app !== 'undefined' && app.init) {
-                app.init();
-            }
+        if (typeof app !== 'undefined') {
+            app.init();
         }
     },
 
     logout() {
-        localStorage.removeItem('logado');
-        localStorage.removeItem('usuario');
-        const loginScreen = document.getElementById('loginScreen');
-        const sistema = document.getElementById('sistema');
-        
-        if (loginScreen) loginScreen.style.display = 'flex';
-        if (sistema) sistema.style.display = 'none';
-        
-        // Limpar campos
-        const usuario = document.getElementById('usuario');
-        const senha = document.getElementById('senha');
-        if (usuario) usuario.value = '';
-        if (senha) senha.value = '';
+        if (confirm('Deseja realmente sair do sistema?')) {
+            localStorage.removeItem('logado');
+            localStorage.removeItem('usuario');
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('sistema').style.display = 'none';
+            
+            document.getElementById('usuario').value = '';
+            document.getElementById('senha').value = '';
+        }
     }
 };
 
-// Inicializar quando a página carregar
 document.addEventListener('DOMContentLoaded', () => {
     login.init();
 });
