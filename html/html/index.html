@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de EPIs</title>
+
+    <link rel="stylesheet" href="../css/totem.css">
+    <link rel="stylesheet" href="../css/decoração.css">
+    <link rel="stylesheet" href="../css/responsivo.css">
+</head>
+<body>
+
+    <!-- Tela de Login -->
+    <section id="login">
+
+        <div class="login-box">
+
+            <img src="../img/logo.png" alt="Logo" class="logo">
+
+            <h1>Controle de EPIs</h1>
+            <p>Faça seu login para continuar</p>
+
+            <input
+                type="text"
+                id="usuario"
+                placeholder="Usuário">
+
+            <input
+                type="password"
+                id="senha"
+                placeholder="Senha">
+
+            <button onclick="fazerLogin()">
+                Entrar
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- Sistema -->
+    <section id="sistema" style="display:none;">
+
+        <aside class="menu">
+
+            <h2>MENU</h2>
+
+            <button onclick="abrirPagina('dashboard')">
+                Dashboard
+            </button>
+
+            <button onclick="abrirPagina('epi')">
+                Controle de EPIs
+            </button>
+
+            <button onclick="abrirPagina('assinatura')">
+                Assinaturas
+            </button>
+
+            <button onclick="abrirPagina('emergencia')">
+                Emergência
+            </button>
+
+            <button onclick="abrirPagina('historico')">
+                Histórico
+            </button>
+
+            <button onclick="logout()">
+                Sair
+            </button>
+
+        </aside>
+
+        <main class="conteudo">
+
+            <!-- Dashboard -->
+            <section id="dashboard" class="pagina">
+
+                <h1>Dashboard</h1>
+
+                <div class="cards">
+
+                    <div class="card">
+                        <h3>EPIs Entregues</h3>
+                        <span id="totalEpi">0</span>
+                    </div>
+
+                    <div class="card">
+                        <h3>Funcionários</h3>
+                        <span id="totalFuncionarios">0</span>
+                    </div>
+
+                    <div class="card">
+                        <h3>Ocorrências</h3>
+                        <span id="totalEmergencias">0</span>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- Controle de EPIs -->
+            <section id="epi" class="pagina" style="display:none;">
+
+                <h1>Controle de EPIs</h1>
+
+                <input
+                    type="text"
+                    id="nomeFuncionario"
+                    placeholder="Nome do Funcionário">
+
+                <input
+                    type="text"
+                    id="nomeEpi"
+                    placeholder="Nome do EPI">
+
+                <button onclick="registrarEntrega()">
+                    Registrar Entrega
+                </button>
+
+            </section>
+
+            <!-- Assinatura -->
+            <section id="assinatura" class="pagina" style="display:none;">
+
+                <h1>Assinatura Digital</h1>
+
+                <canvas id="assinaturaCanvas"></canvas>
+
+                <br><br>
+
+                <button onclick="limparAssinatura()">
+                    Limpar
+                </button>
+
+                <button onclick="salvarAssinatura()">
+                    Salvar
+                </button>
+
+            </section>
+
+            <!-- Emergência -->
+            <section id="emergencia" class="pagina" style="display:none;">
+
+                <h1>Emergência</h1>
+
+                <button class="botao-emergencia" onclick="acionarEmergencia()">
+                    🚨 ACIONAR EMERGÊNCIA
+                </button>
+
+                <audio id="sirene" src="../sirene.mp3"></audio>
+
+            </section>
+
+            <!-- Histórico -->
+            <section id="historico" class="pagina" style="display:none;">
+
+                <h1>Histórico</h1>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Data</th>
+                            <th>Funcionário</th>
+                            <th>EPI</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="tabelaHistorico">
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+        </main>
+
+    </section>
+
+    <script src="../html/js/login.js"></script>
+    <script src="../html/js/app.js"></script>
+    <script src="../html/js/epi.js"></script>
+    <script src="../html/js/assinatura.js"></script>
+    <script src="../html/js/emergenci.js"></script>
+    <script src="../html/js/historico.js"></script>
+
+</body>
+</html>
