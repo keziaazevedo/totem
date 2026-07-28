@@ -1,0 +1,2171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Totem - Controle de EPIs</title>
+    <style>
+        /* ============================================================
+           TOTEM.CSS - Layout Completo com Bordas e Efeitos
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ============================================================
+           SCROLLBAR PERSONALIZADA
+           ============================================================ */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #4CAF50, #2d7a3a);
+            border-radius: 4px;
+            border: 1px solid #1a472a;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #66BB6A, #4CAF50);
+        }
+
+        /* ============================================================
+           LOGIN DO TRABALHADOR
+           ============================================================ */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(76, 175, 80, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(76, 175, 80, 0.10) 0%, transparent 60%),
+                linear-gradient(135deg, #0d1f0d 0%, #1a2a1a 30%, #0f1f0f 70%, #0a1a0a 100%);
+            padding: 20px;
+            position: relative;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.01) 2px, rgba(255,255,255,0.01) 4px),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.01) 2px, rgba(255,255,255,0.01) 4px);
+            pointer-events: none;
+        }
+
+        .login-box {
+            background: rgba(18, 30, 18, 0.95);
+            padding: 50px 45px;
+            border-radius: 24px;
+            border: 2px solid rgba(76, 175, 80, 0.3);
+            box-shadow: 
+                0 0 60px rgba(76, 175, 80, 0.05),
+                inset 0 0 60px rgba(76, 175, 80, 0.02);
+            max-width: 480px;
+            width: 100%;
+            position: relative;
+            backdrop-filter: blur(20px);
+        }
+
+        .login-box::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 26px;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.3), transparent 40%, transparent 60%, rgba(76, 175, 80, 0.2));
+            z-index: -1;
+        }
+
+        .login-box::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -30px;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(76, 175, 80, 0.05), transparent 70%);
+            pointer-events: none;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo {
+            max-width: 90px;
+            margin-bottom: 18px;
+            filter: drop-shadow(0 0 30px rgba(76, 175, 80, 0.2));
+            transition: all 0.5s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05) rotate(-3deg);
+            filter: drop-shadow(0 0 50px rgba(76, 175, 80, 0.4));
+        }
+
+        .login-box h1 {
+            color: #e8f5e9;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(76, 175, 80, 0.1);
+        }
+
+        .login-box h1 span {
+            color: #4CAF50;
+        }
+
+        .login-box p {
+            color: #889988;
+            font-size: 15px;
+            margin-top: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        .login-form .form-group {
+            margin-bottom: 18px;
+        }
+
+        .login-form label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #aabbab;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid rgba(76, 175, 80, 0.2);
+            border-radius: 14px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.03);
+            color: #e8f5e9;
+            outline: none;
+        }
+
+        .login-form input::placeholder {
+            color: #556655;
+        }
+
+        .login-form input:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1), inset 0 0 20px rgba(76, 175, 80, 0.02);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #2d7a3a, #4CAF50);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-login::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn-login:hover::before {
+            opacity: 1;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 10px 40px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-login:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .mensagem-erro {
+            margin-top: 15px;
+            padding: 12px 16px;
+            background: rgba(198, 40, 40, 0.15);
+            color: #ef9a9a;
+            border-radius: 12px;
+            font-size: 14px;
+            border-left: 4px solid #c62828;
+            border: 1px solid rgba(198, 40, 40, 0.2);
+        }
+
+        /* ============================================================
+           SISTEMA TOTEM
+           ============================================================ */
+        #sistema {
+            display: none;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(12, 20, 12, 0.97);
+            box-shadow: 0 0 80px rgba(0,0,0,0.5);
+            border-left: 2px solid rgba(76, 175, 80, 0.1);
+            border-right: 2px solid rgba(76, 175, 80, 0.1);
+            position: relative;
+        }
+
+        #sistema::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(255,255,255,0.005) 3px, rgba(255,255,255,0.005) 6px);
+            pointer-events: none;
+        }
+
+        /* ============================================================
+           HEADER DO TOTEM
+           ============================================================ */
+        .totem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 35px;
+            background: linear-gradient(180deg, rgba(20, 40, 20, 0.95), rgba(15, 30, 15, 0.95));
+            border-bottom: 2px solid rgba(76, 175, 80, 0.15);
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .totem-header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 20%;
+            right: 20%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(76, 175, 80, 0.3), transparent);
+        }
+
+        .totem-header-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .header-logo {
+            max-width: 45px;
+            filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.15));
+        }
+
+        .totem-header-left h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #e8f5e9;
+            letter-spacing: 2px;
+        }
+
+        .totem-header-left h1 span {
+            color: #4CAF50;
+        }
+
+        .header-sub {
+            font-size: 12px;
+            opacity: 0.6;
+            display: block;
+            color: #889988;
+            letter-spacing: 1px;
+        }
+
+        .totem-header-right {
+            text-align: right;
+        }
+
+        .trabalhador-info {
+            font-size: 13px;
+            display: block;
+            color: #889988;
+        }
+
+        .trabalhador-info strong {
+            display: block;
+            font-size: 18px;
+            color: #e8f5e9;
+            margin-top: 2px;
+            font-weight: 700;
+        }
+
+        .trabalhador-info span {
+            font-size: 13px;
+            opacity: 0.6;
+        }
+
+        /* ============================================================
+           CONTEÚDO DO TOTEM
+           ============================================================ */
+        .totem-conteudo {
+            flex: 1;
+            padding: 30px 35px;
+            overflow-y: auto;
+            background: rgba(10, 18, 10, 0.95);
+        }
+
+        .etapa-page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .etapa-page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .etapa-wrapper {
+            background: rgba(18, 32, 18, 0.8);
+            border-radius: 20px;
+            padding: 35px 40px;
+            border: 1px solid rgba(76, 175, 80, 0.1);
+            box-shadow: 
+                0 4px 30px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(76, 175, 80, 0.05);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .etapa-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            border-radius: 21px;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), transparent 30%, transparent 70%, rgba(76, 175, 80, 0.05));
+            z-index: -1;
+        }
+
+        /* ============================================================
+           HEADER DAS ETAPAS
+           ============================================================ */
+        .etapa-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .etapa-badge {
+            display: inline-block;
+            background: rgba(76, 175, 80, 0.15);
+            color: #4CAF50;
+            padding: 5px 25px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            border: 1px solid rgba(76, 175, 80, 0.15);
+        }
+
+        .etapa-header h2 {
+            color: #e8f5e9;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .etapa-header p {
+            color: #889988;
+            font-size: 15px;
+            margin-top: 6px;
+        }
+
+        /* ============================================================
+           ETAPA 1 - SOLICITAR
+           ============================================================ */
+        .solicitar-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .trabalhador-resumo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 18px 22px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 14px;
+            margin-bottom: 28px;
+            border: 1px solid rgba(76, 175, 80, 0.08);
+        }
+
+        .resumo-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .resumo-label {
+            font-size: 11px;
+            color: #667766;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .resumo-valor {
+            font-size: 17px;
+            font-weight: 700;
+            color: #e8f5e9;
+            margin-top: 3px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #aabbab;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 13px 18px;
+            border: 2px solid rgba(76, 175, 80, 0.12);
+            border-radius: 14px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.02);
+            color: #e8f5e9;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #556655;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.06);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .epi-select {
+            width: 100%;
+            padding: 13px 18px;
+            border: 2px solid rgba(76, 175, 80, 0.12);
+            border-radius: 14px;
+            font-size: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            color: #e8f5e9;
+            cursor: pointer;
+            transition: all 0.3s;
+            outline: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667766' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 18px center;
+        }
+
+        .epi-select option {
+            background: #1a2a1a;
+            color: #e8f5e9;
+        }
+
+        .epi-select:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.06);
+        }
+
+        .btn-proximo-solicitar {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #2d7a3a, #4CAF50);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-proximo-solicitar::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn-proximo-solicitar:hover::before {
+            opacity: 1;
+        }
+
+        .btn-proximo-solicitar:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(76, 175, 80, 0.3);
+        }
+
+        /* ============================================================
+           ETAPA 2 - VALIDAÇÃO
+           ============================================================ */
+        .validacao-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .solicitacao-resumo {
+            margin-bottom: 28px;
+        }
+
+        .resumo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .resumo-card {
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            border: 1px solid rgba(76, 175, 80, 0.08);
+            text-align: center;
+        }
+
+        .resumo-card .resumo-label {
+            display: block;
+            font-size: 10px;
+            color: #667766;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .resumo-card .resumo-valor {
+            display: block;
+            font-size: 16px;
+            font-weight: 700;
+            color: #e8f5e9;
+            margin-top: 4px;
+        }
+
+        .checkbox-group-validacao {
+            margin: 22px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(76, 175, 80, 0.06);
+            font-size: 14px;
+            color: #c8d5c8;
+        }
+
+        .checkbox-label:hover {
+            background: rgba(76, 175, 80, 0.05);
+            border-color: rgba(76, 175, 80, 0.15);
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #4CAF50;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        /* ============================================================
+           BOTÕES DE NAVEGAÇÃO
+           ============================================================ */
+        .botoes-validacao,
+        .botoes-assinatura-final,
+        .botoes-finalizacao {
+            display: flex;
+            gap: 15px;
+            margin-top: 28px;
+        }
+
+        .btn-voltar {
+            flex: 1;
+            padding: 14px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #889988;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-voltar:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.12);
+            color: #e8f5e9;
+            transform: translateX(-3px);
+        }
+
+        .btn-proximo {
+            flex: 2;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #2d7a3a, #4CAF50);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-proximo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn-proximo:hover::before {
+            opacity: 1;
+        }
+
+        .btn-proximo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(76, 175, 80, 0.3);
+        }
+
+        /* ============================================================
+           ETAPA 3 - ASSINATURA
+           ============================================================ */
+        .assinatura-content {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .assinatura-area {
+            margin: 22px 0;
+        }
+
+        .assinatura-instrucao {
+            font-size: 15px;
+            color: #aabbab;
+            margin-bottom: 14px;
+            font-weight: 500;
+        }
+
+        .canvas-wrapper {
+            border: 3px solid rgba(76, 175, 80, 0.12);
+            border-radius: 16px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.02);
+            position: relative;
+            transition: all 0.3s;
+            height: 200px;
+        }
+
+        .canvas-wrapper:hover {
+            border-color: rgba(76, 175, 80, 0.3);
+            box-shadow: 0 0 30px rgba(76, 175, 80, 0.03);
+        }
+
+        #canvasAssinatura {
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+            display: block;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .canvas-overlay {
+            position: absolute;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(85, 102, 85, 0.4);
+            font-size: 13px;
+            pointer-events: none;
+            letter-spacing: 1px;
+        }
+
+        .botoes-assinatura {
+            display: flex;
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .btn-limpar {
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            color: #889988;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn-limpar:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.12);
+            color: #e8f5e9;
+        }
+
+        .btn-assinar {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #2d7a3a, #4CAF50);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn-assinar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+        }
+
+        .assinatura-status {
+            margin-top: 12px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .assinatura-status.sucesso {
+            display: block;
+            background: rgba(76, 175, 80, 0.1);
+            color: #81C784;
+            border: 1px solid rgba(76, 175, 80, 0.15);
+        }
+
+        .btn-finalizar {
+            flex: 2;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #2d7a3a, #4CAF50);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-finalizar::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn-finalizar:hover::before {
+            opacity: 1;
+        }
+
+        .btn-finalizar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(76, 175, 80, 0.3);
+        }
+
+        /* ============================================================
+           FINALIZAÇÃO / HISTÓRICO
+           ============================================================ */
+        .historico-content {
+            max-width: 650px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .confirmacao-grande {
+            margin-bottom: 28px;
+        }
+
+        .icone-sucesso {
+            font-size: 80px;
+            margin-bottom: 12px;
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+            50% { transform: scale(1.3) rotate(3deg); }
+            70% { transform: scale(0.9) rotate(-2deg); }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .confirmacao-grande h3 {
+            color: #e8f5e9;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .confirmacao-grande p {
+            color: #889988;
+            font-size: 15px;
+            margin-top: 4px;
+        }
+
+        .detalhes-finalizacao {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 28px 0;
+            text-align: left;
+        }
+
+        .detalhe-final {
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            border: 1px solid rgba(76, 175, 80, 0.06);
+        }
+
+        .detalhe-final .detalhe-label {
+            display: block;
+            font-size: 10px;
+            color: #667766;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detalhe-final .detalhe-valor {
+            display: block;
+            font-size: 16px;
+            font-weight: 700;
+            color: #e8f5e9;
+            margin-top: 3px;
+        }
+
+        .btn-nova-solicitacao {
+            flex: 1;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #2d7a3a, #4CAF50);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-nova-solicitacao:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-sair-totem {
+            flex: 1;
+            padding: 14px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #889988;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-sair-totem:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.12);
+            color: #e8f5e9;
+        }
+
+        /* ============================================================
+           BOTÃO DE HISTÓRICO FLUTUANTE
+           ============================================================ */
+        .btn-historico-flutuante {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #1a472a, #2d7a3a);
+            color: white;
+            border: 2px solid rgba(76, 175, 80, 0.3);
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        .btn-historico-flutuante:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 50px rgba(76, 175, 80, 0.2);
+            border-color: rgba(76, 175, 80, 0.6);
+        }
+
+        .btn-historico-flutuante .badge {
+            background: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 10px;
+            font-size: 12px;
+        }
+
+        /* ============================================================
+           MODAL DO HISTÓRICO
+           ============================================================ */
+        .modal-historico {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-historico.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-conteudo {
+            background: rgba(18, 32, 18, 0.95);
+            border-radius: 24px;
+            border: 2px solid rgba(76, 175, 80, 0.15);
+            max-width: 900px;
+            width: 100%;
+            max-height: 85vh;
+            padding: 35px;
+            overflow-y: auto;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .modal-conteudo::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), transparent 40%, transparent 60%, rgba(76, 175, 80, 0.05));
+            z-index: -1;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(76, 175, 80, 0.1);
+        }
+
+        .modal-header h2 {
+            color: #e8f5e9;
+            font-size: 24px;
+        }
+
+        .modal-header h2 span {
+            color: #4CAF50;
+        }
+
+        .btn-fechar-modal {
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            color: #889988;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .btn-fechar-modal:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e8f5e9;
+        }
+
+        .modal-historico-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .historico-item {
+            display: grid;
+            grid-template-columns: 100px 120px 100px 80px 100px 1fr;
+            gap: 10px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            border: 1px solid rgba(76, 175, 80, 0.05);
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .historico-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(76, 175, 80, 0.1);
+        }
+
+        .historico-item .h-data {
+            color: #667766;
+            font-size: 13px;
+        }
+        .historico-item .h-nome {
+            color: #e8f5e9;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .historico-item .h-matricula {
+            color: #889988;
+            font-size: 13px;
+        }
+        .historico-item .h-epi {
+            color: #4CAF50;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .historico-item .h-tst {
+            color: #889988;
+            font-size: 13px;
+        }
+        .historico-item .h-status {
+            color: #81C784;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .historico-item .h-status.assinado {
+            color: #81C784;
+        }
+
+        .historico-vazio {
+            text-align: center;
+            padding: 40px;
+            color: #667766;
+            font-size: 16px;
+        }
+
+        .historico-vazio span {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* ============================================================
+           RODAPÉ
+           ============================================================ */
+        .totem-footer {
+            padding: 14px 35px;
+            background: rgba(12, 20, 12, 0.95);
+            border-top: 2px solid rgba(76, 175, 80, 0.08);
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #445544;
+            flex-shrink: 0;
+            letter-spacing: 0.5px;
+        }
+
+        .totem-footer span:last-child {
+            color: #335533;
+        }
+
+        /* ============================================================
+           RESPONSIVO
+           ============================================================ */
+        @media (max-width: 768px) {
+            .login-box {
+                padding: 30px 25px;
+            }
+            
+            .totem-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+                padding: 15px 20px;
+            }
+            
+            .totem-header-left {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .totem-header-right {
+                text-align: center;
+            }
+            
+            .totem-conteudo {
+                padding: 15px;
+            }
+            
+            .etapa-wrapper {
+                padding: 20px 18px;
+            }
+            
+            .etapa-header h2 {
+                font-size: 22px;
+            }
+            
+            .resumo-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .detalhes-finalizacao {
+                grid-template-columns: 1fr;
+            }
+            
+            .botoes-validacao,
+            .botoes-assinatura-final,
+            .botoes-finalizacao {
+                flex-direction: column;
+            }
+            
+            .btn-voltar,
+            .btn-proximo,
+            .btn-finalizar,
+            .btn-nova-solicitacao,
+            .btn-sair-totem {
+                width: 100%;
+            }
+            
+            .botoes-assinatura {
+                flex-direction: column;
+            }
+            
+            .botoes-assinatura button {
+                width: 100%;
+            }
+            
+            .trabalhador-resumo {
+                grid-template-columns: 1fr;
+            }
+            
+            .canvas-wrapper {
+                height: 160px;
+            }
+            
+            .totem-footer {
+                flex-direction: column;
+                text-align: center;
+                gap: 5px;
+                padding: 12px 20px;
+                font-size: 11px;
+            }
+
+            .historico-item {
+                grid-template-columns: 1fr;
+                gap: 4px;
+                padding: 10px 14px;
+            }
+
+            .historico-item .h-status {
+                text-align: left;
+            }
+
+            .modal-conteudo {
+                padding: 20px;
+                max-height: 90vh;
+            }
+
+            .modal-header h2 {
+                font-size: 18px;
+            }
+
+            .btn-historico-flutuante {
+                bottom: 15px;
+                right: 15px;
+                padding: 10px 18px;
+                font-size: 12px;
+            }
+
+            .btn-historico-flutuante .badge {
+                font-size: 10px;
+                padding: 1px 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 20px 15px;
+                border-radius: 18px;
+            }
+            
+            .login-form input {
+                padding: 12px 14px;
+                font-size: 14px;
+            }
+            
+            .btn-login {
+                font-size: 16px;
+                padding: 14px;
+            }
+            
+            .etapa-header h2 {
+                font-size: 18px;
+            }
+            
+            .etapa-wrapper {
+                padding: 15px 12px;
+            }
+            
+            .etapa-badge {
+                font-size: 10px;
+                padding: 4px 15px;
+            }
+            
+            .resumo-card .resumo-valor {
+                font-size: 14px;
+            }
+            
+            .form-group input,
+            .form-group textarea,
+            .epi-select {
+                padding: 12px 14px;
+                font-size: 14px;
+            }
+            
+            .btn-proximo-solicitar {
+                font-size: 15px;
+                padding: 14px;
+            }
+            
+            .logo {
+                max-width: 60px;
+            }
+            
+            .totem-header-left h1 {
+                font-size: 16px;
+            }
+            
+            .header-logo {
+                max-width: 35px;
+            }
+            
+            .trabalhador-info {
+                font-size: 12px;
+            }
+            
+            .trabalhador-info strong {
+                font-size: 14px;
+            }
+
+            .modal-conteudo {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== TELA DE LOGIN ==================== -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <img src="../img/logo.png" alt="Logo TST" class="logo">
+                <h1>Totem de <span>EPIs</span></h1>
+                <p>Identifique-se para solicitar seu EPI</p>
+            </div>
+            
+            <div class="login-form">
+                <div class="form-group">
+                    <label>👤 Nome do Trabalhador</label>
+                    <input type="text" id="nomeTrabalhador" placeholder="Digite seu nome completo" autofocus>
+                </div>
+                
+                <div class="form-group">
+                    <label>🆔 Matrícula / CPF</label>
+                    <input type="text" id="matriculaTrabalhador" placeholder="Digite sua matrícula ou CPF">
+                </div>
+
+                <div class="form-group">
+                    <label>🏗️ Função</label>
+                    <input type="text" id="funcaoTrabalhador" placeholder="Sua função no trabalho">
+                </div>
+
+                <button id="btnIniciar" class="btn-login">
+                    <span>🚀</span> Iniciar Solicitação
+                </button>
+                <div id="mensagemErro" class="mensagem-erro" style="display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SISTEMA PRINCIPAL ==================== -->
+    <div id="sistema">
+
+        <!-- ======== TOPO DO TOTEM ======== -->
+        <header class="totem-header">
+            <div class="totem-header-left">
+                <img src="../img/logo.png" alt="Logo" class="header-logo">
+                <div>
+                    <h1>Totem de <span>EPIs</span></h1>
+                    <span class="header-sub">Sistema de Solicitação e Validação</span>
+                </div>
+            </div>
+            <div class="totem-header-right">
+                <span class="trabalhador-info">
+                    👤 <strong id="headerTrabalhador">-</strong>
+                    <span id="headerMatricula">-</span>
+                </span>
+            </div>
+        </header>
+
+        <!-- ======== CONTEÚDO ======== -->
+        <main class="totem-conteudo">
+
+            <!-- ===== ETAPA 1: SOLICITAR EPI ===== -->
+            <section id="etapaSolicitar" class="etapa-page active">
+                <div class="etapa-wrapper">
+                    <div class="etapa-header">
+                        <div class="etapa-badge">Passo 1 de 3</div>
+                        <h2>📦 Solicitar EPI</h2>
+                        <p>Selecione o Equipamento de Proteção Individual que você precisa</p>
+                    </div>
+
+                    <div class="solicitar-content">
+                        <div class="trabalhador-resumo">
+                            <div class="resumo-item">
+                                <span class="resumo-label">👤 Trabalhador</span>
+                                <span id="resumoNome" class="resumo-valor">-</span>
+                            </div>
+                            <div class="resumo-item">
+                                <span class="resumo-label">🆔 Matrícula</span>
+                                <span id="resumoMatricula" class="resumo-valor">-</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>🛡️ Selecione o EPI Desejado *</label>
+                            <select id="epiSelect" class="epi-select">
+                                <option value="">Selecione um EPI...</option>
+                                <option value="Capacete de Segurança">⛑️ Capacete de Segurança</option>
+                                <option value="Óculos de Proteção">👓 Óculos de Proteção</option>
+                                <option value="Protetor Auricular">🔇 Protetor Auricular</option>
+                                <option value="Máscara Respiratória">😷 Máscara Respiratória</option>
+                                <option value="Luvas de Segurança">🧤 Luvas de Segurança</option>
+                                <option value="Calçado de Segurança">👢 Calçado de Segurança</option>
+                                <option value="Cinto de Segurança">🔗 Cinto de Segurança</option>
+                                <option value="Vestimenta Refletiva">🦺 Vestimenta Refletiva</option>
+                                <option value="Protetor Facial">🛡️ Protetor Facial</option>
+                                <option value="Avental de Segurança">🧪 Avental de Segurança</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>📦 Quantidade</label>
+                            <input type="number" id="quantidadeEPI" value="1" min="1" max="10">
+                        </div>
+
+                        <div class="form-group">
+                            <label>📝 Observações (opcional)</label>
+                            <textarea id="observacaoEPI" rows="2" placeholder="Alguma observação sobre a solicitação..."></textarea>
+                        </div>
+
+                        <button class="btn-proximo-solicitar" onclick="irParaValidacao()">
+                            Solicitar EPI → <span class="btn-icon">➜</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== ETAPA 2: VALIDAÇÃO TST ===== -->
+            <section id="etapaValidacao" class="etapa-page" style="display:none;">
+                <div class="etapa-wrapper">
+                    <div class="etapa-header">
+                        <div class="etapa-badge">Passo 2 de 3</div>
+                        <h2>🔒 Validação do TST</h2>
+                        <p>Um responsável do TST deve validar a solicitação</p>
+                    </div>
+
+                    <div class="validacao-content">
+                        <div class="solicitacao-resumo">
+                            <div class="resumo-grid">
+                                <div class="resumo-card">
+                                    <span class="resumo-label">👤 Trabalhador</span>
+                                    <span class="resumo-valor" id="validacaoNome">-</span>
+                                </div>
+                                <div class="resumo-card">
+                                    <span class="resumo-label">🛡️ EPI Solicitado</span>
+                                    <span class="resumo-valor" id="validacaoEpi">-</span>
+                                </div>
+                                <div class="resumo-card">
+                                    <span class="resumo-label">📦 Quantidade</span>
+                                    <span class="resumo-valor" id="validacaoQtd">-</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>👷 Nome do Responsável TST *</label>
+                            <input type="text" id="responsavelTST" placeholder="Digite o nome do responsável" autofocus>
+                        </div>
+
+                        <div class="form-group">
+                            <label>🆔 Registro TST</label>
+                            <input type="text" id="registroTST" placeholder="Número do registro profissional">
+                        </div>
+
+                        <div class="checkbox-group-validacao">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="confirmacaoTST">
+                                Confirmo que o EPI foi entregue em perfeitas condições
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="treinamentoTST">
+                                O trabalhador foi orientado sobre o uso correto
+                            </label>
+                        </div>
+
+                        <div class="botoes-validacao">
+                            <button class="btn-voltar" onclick="voltarSolicitar()">← Voltar</button>
+                            <button class="btn-proximo" onclick="irParaAssinatura()">
+                                Validar e Prosseguir → <span class="btn-icon">➜</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== ETAPA 3: ASSINATURA ===== -->
+            <section id="etapaAssinatura" class="etapa-page" style="display:none;">
+                <div class="etapa-wrapper">
+                    <div class="etapa-header">
+                        <div class="etapa-badge">Passo 3 de 3</div>
+                        <h2>✍️ Assinatura do Trabalhador</h2>
+                        <p>Assine para confirmar o recebimento do EPI</p>
+                    </div>
+
+                    <div class="assinatura-content">
+                        <div class="solicitacao-resumo">
+                            <div class="resumo-grid">
+                                <div class="resumo-card">
+                                    <span class="resumo-label">👤 Trabalhador</span>
+                                    <span class="resumo-valor" id="assinaturaNome">-</span>
+                                </div>
+                                <div class="resumo-card">
+                                    <span class="resumo-label">🛡️ EPI</span>
+                                    <span class="resumo-valor" id="assinaturaEpi">-</span>
+                                </div>
+                                <div class="resumo-card">
+                                    <span class="resumo-label">👷 Responsável TST</span>
+                                    <span class="resumo-valor" id="assinaturaResponsavel">-</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="assinatura-area">
+                            <p class="assinatura-instrucao">✍️ Assine abaixo com o dedo ou mouse:</p>
+                            <div class="canvas-wrapper">
+                                <canvas id="canvasAssinatura"></canvas>
+                                <div class="canvas-overlay">Toque ou clique para assinar</div>
+                            </div>
+                            <div class="botoes-assinatura">
+                                <button class="btn-limpar" onclick="limparAssinatura()">🗑️ Limpar</button>
+                                <button class="btn-assinar" onclick="salvarAssinatura()">✍️ Assinar</button>
+                            </div>
+                            <div id="assinaturaStatus" class="assinatura-status"></div>
+                        </div>
+
+                        <div class="botoes-assinatura-final">
+                            <button class="btn-voltar" onclick="voltarValidacao()">← Voltar</button>
+                            <button class="btn-finalizar" onclick="finalizarSolicitacao()">
+                                ✅ Finalizar Solicitação
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== FINALIZAÇÃO ===== -->
+            <section id="etapaHistorico" class="etapa-page" style="display:none;">
+                <div class="etapa-wrapper historico-wrapper">
+                    <div class="etapa-header">
+                        <div class="etapa-badge">✅ Finalizado</div>
+                        <h2>📋 Solicitação Registrada!</h2>
+                        <p>O EPI foi entregue e assinado com sucesso</p>
+                    </div>
+
+                    <div class="historico-content">
+                        <div class="confirmacao-grande">
+                            <div class="icone-sucesso">✅</div>
+                            <h3>Entrega Confirmada</h3>
+                            <p>A solicitação foi registrada no sistema</p>
+                        </div>
+
+                        <div class="detalhes-finalizacao">
+                            <div class="detalhe-final">
+                                <span class="detalhe-label">👤 Trabalhador</span>
+                                <span class="detalhe-valor" id="histNome">-</span>
+                            </div>
+                            <div class="detalhe-final">
+                                <span class="detalhe-label">🆔 Matrícula</span>
+                                <span class="detalhe-valor" id="histMatricula">-</span>
+                            </div>
+                            <div class="detalhe-final">
+                                <span class="detalhe-label">🛡️ EPI</span>
+                                <span class="detalhe-valor" id="histEpi">-</span>
+                            </div>
+                            <div class="detalhe-final">
+                                <span class="detalhe-label">📦 Quantidade</span>
+                                <span class="detalhe-valor" id="histQtd">-</span>
+                            </div>
+                            <div class="detalhe-final">
+                                <span class="detalhe-label">👷 TST</span>
+                                <span class="detalhe-valor" id="histTST">-</span>
+                            </div>
+                            <div class="detalhe-final">
+                                <span class="detalhe-label">📅 Data/Hora</span>
+                                <span class="detalhe-valor" id="histData">-</span>
+                            </div>
+                        </div>
+
+                        <div class="botoes-finalizacao">
+                            <button class="btn-nova-solicitacao" onclick="novaSolicitacao()">
+                                🔄 Nova Solicitação
+                            </button>
+                            <button class="btn-sair-totem" onclick="sairTotem()">
+                                🚪 Sair do Totem
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- ======== RODAPÉ ======== -->
+        <footer class="totem-footer">
+            <span>© 2026 - Sistema de Controle de EPIs</span>
+            <span>Versão 2.0 - Totem de Autoatendimento</span>
+        </footer>
+    </div>
+
+    <!-- ==================== BOTÃO DE HISTÓRICO FLUTUANTE ==================== -->
+    <button class="btn-historico-flutuante" onclick="abrirHistorico()">
+        📋 Histórico
+        <span class="badge" id="historicoBadge">0</span>
+    </button>
+
+    <!-- ==================== MODAL DO HISTÓRICO ==================== -->
+    <div id="modalHistorico" class="modal-historico">
+        <div class="modal-conteudo">
+            <div class="modal-header">
+                <h2>📋 Histórico de <span>Entregas</span></h2>
+                <button class="btn-fechar-modal" onclick="fecharHistorico()">✕ Fechar</button>
+            </div>
+            <div id="listaHistorico" class="modal-historico-lista">
+                <!-- Lista gerada pelo JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // APP.JS - TOTEM DE AUTORATENDIMENTO
+        // ============================================================
+        const app = {
+            dadosSolicitacao: {},
+            registros: [],
+
+            init() {
+                this.carregarRegistros();
+                this.atualizarBadge();
+                
+                // Verificar se já está logado
+                const nome = localStorage.getItem('trabalhadorNome');
+                if (nome) {
+                    document.getElementById('loginScreen').style.display = 'none';
+                    document.getElementById('sistema').style.display = 'flex';
+                    this.atualizarHeader();
+                    this.atualizarResumo();
+                    this.mostrarEtapa('etapaSolicitar');
+                }
+
+                // Configurar botão de login
+                document.getElementById('btnIniciar').addEventListener('click', () => {
+                    this.iniciarSolicitacao();
+                });
+
+                // Enter para avançar
+                document.getElementById('matriculaTrabalhador').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        this.iniciarSolicitacao();
+                    }
+                });
+
+                document.getElementById('nomeTrabalhador').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        document.getElementById('matriculaTrabalhador').focus();
+                    }
+                });
+
+                // Foco inicial
+                document.getElementById('nomeTrabalhador').focus();
+
+                // Fechar modal com ESC
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        fecharHistorico();
+                    }
+                });
+
+                // Fechar modal clicando fora
+                document.getElementById('modalHistorico').addEventListener('click', (e) => {
+                    if (e.target === e.currentTarget) {
+                        fecharHistorico();
+                    }
+                });
+            },
+
+            carregarRegistros() {
+                const dados = localStorage.getItem('registrosEPI');
+                this.registros = dados ? JSON.parse(dados) : [];
+            },
+
+            salvarRegistros() {
+                localStorage.setItem('registrosEPI', JSON.stringify(this.registros));
+                this.atualizarBadge();
+            },
+
+            atualizarBadge() {
+                const badge = document.getElementById('historicoBadge');
+                if (badge) {
+                    badge.textContent = this.registros.length;
+                }
+            },
+
+            atualizarHeader() {
+                const nome = localStorage.getItem('trabalhadorNome') || '-';
+                const matricula = localStorage.getItem('trabalhadorMatricula') || '-';
+                document.getElementById('headerTrabalhador').textContent = nome;
+                document.getElementById('headerMatricula').textContent = matricula;
+            },
+
+            atualizarResumo() {
+                const nome = localStorage.getItem('trabalhadorNome') || '-';
+                const matricula = localStorage.getItem('trabalhadorMatricula') || '-';
+                document.getElementById('resumoNome').textContent = nome;
+                document.getElementById('resumoMatricula').textContent = matricula;
+            },
+
+            iniciarSolicitacao() {
+                const nome = document.getElementById('nomeTrabalhador').value.trim();
+                const matricula = document.getElementById('matriculaTrabalhador').value.trim();
+                const funcao = document.getElementById('funcaoTrabalhador').value.trim();
+                const erro = document.getElementById('mensagemErro');
+
+                if (!nome) {
+                    erro.textContent = '❌ Por favor, informe seu nome!';
+                    erro.style.display = 'block';
+                    document.getElementById('nomeTrabalhador').focus();
+                    return;
+                }
+
+                if (!matricula) {
+                    erro.textContent = '❌ Por favor, informe sua matrícula!';
+                    erro.style.display = 'block';
+                    document.getElementById('matriculaTrabalhador').focus();
+                    return;
+                }
+
+                erro.style.display = 'none';
+
+                localStorage.setItem('trabalhadorNome', nome);
+                localStorage.setItem('trabalhadorMatricula', matricula);
+                localStorage.setItem('trabalhadorFuncao', funcao);
+
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('sistema').style.display = 'flex';
+
+                this.atualizarHeader();
+                this.atualizarResumo();
+                this.mostrarEtapa('etapaSolicitar');
+            },
+
+            mostrarEtapa(etapaId) {
+                document.querySelectorAll('.etapa-page').forEach(el => {
+                    el.classList.remove('active');
+                    el.style.display = 'none';
+                });
+                
+                const etapa = document.getElementById(etapaId);
+                if (etapa) {
+                    etapa.style.display = 'block';
+                    setTimeout(() => etapa.classList.add('active'), 10);
+                }
+
+                if (etapaId === 'etapaAssinatura') {
+                    setTimeout(() => {
+                        this.iniciarAssinatura();
+                    }, 300);
+                }
+            },
+
+            iniciarAssinatura() {
+                const canvas = document.getElementById('canvasAssinatura');
+                if (!canvas) return;
+
+                const ctx = canvas.getContext('2d');
+                const wrapper = canvas.parentElement;
+                const width = Math.min(wrapper.clientWidth - 6, 600);
+                const height = 200;
+
+                canvas.width = width;
+                canvas.height = height;
+                canvas.style.width = width + 'px';
+                canvas.style.height = height + 'px';
+
+                ctx.fillStyle = 'rgba(255,255,255,0.02)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.strokeStyle = 'rgba(76, 175, 80, 0.15)';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(85, 102, 85, 0.3)';
+                ctx.font = '16px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('Assine aqui', canvas.width / 2, canvas.height / 2);
+
+                let desenhando = false;
+                let ultimoX = 0;
+                let ultimoY = 0;
+
+                function obterPosicao(e) {
+                    const rect = canvas.getBoundingClientRect();
+                    return {
+                        x: e.clientX - rect.left,
+                        y: e.clientY - rect.top
+                    };
+                }
+
+                function iniciarDesenho(e) {
+                    desenhando = true;
+                    const pos = obterPosicao(e);
+                    ultimoX = pos.x;
+                    ultimoY = pos.y;
+                    ctx.beginPath();
+                    ctx.moveTo(ultimoX, ultimoY);
+                }
+
+                function desenhar(e) {
+                    if (!desenhando) return;
+                    const pos = obterPosicao(e);
+                    ctx.beginPath();
+                    ctx.moveTo(ultimoX, ultimoY);
+                    ctx.lineTo(pos.x, pos.y);
+                    ctx.strokeStyle = '#4CAF50';
+                    ctx.lineWidth = 3;
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+                    ctx.stroke();
+                    ultimoX = pos.x;
+                    ultimoY = pos.y;
+                }
+
+                function pararDesenho() {
+                    desenhando = false;
+                }
+
+                canvas.addEventListener('mousedown', iniciarDesenho);
+                canvas.addEventListener('mousemove', desenhar);
+                canvas.addEventListener('mouseup', pararDesenho);
+                canvas.addEventListener('mouseleave', pararDesenho);
+
+                canvas.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const mouseEvent = new MouseEvent('mousedown', {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    });
+                    canvas.dispatchEvent(mouseEvent);
+                });
+
+                canvas.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const mouseEvent = new MouseEvent('mousemove', {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    });
+                    canvas.dispatchEvent(mouseEvent);
+                });
+
+                canvas.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    pararDesenho();
+                });
+
+                canvas._ctx = ctx;
+                canvas._limpar = () => {
+                    ctx.fillStyle = 'rgba(255,255,255,0.02)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.strokeStyle = 'rgba(76, 175, 80, 0.15)';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = 'rgba(85, 102, 85, 0.3)';
+                    ctx.font = '16px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('Assine aqui', canvas.width / 2, canvas.height / 2);
+                };
+            },
+
+            irParaValidacao() {
+                const epi = document.getElementById('epiSelect').value;
+                const quantidade = document.getElementById('quantidadeEPI').value || 1;
+                const observacao = document.getElementById('observacaoEPI').value.trim();
+
+                if (!epi) {
+                    alert('❌ Por favor, selecione um EPI!');
+                    document.getElementById('epiSelect').focus();
+                    return;
+                }
+
+                this.dadosSolicitacao = {
+                    nome: document.getElementById('resumoNome').textContent,
+                    matricula: document.getElementById('resumoMatricula').textContent,
+                    epi: epi,
+                    quantidade: parseInt(quantidade),
+                    observacao: observacao
+                };
+
+                document.getElementById('validacaoNome').textContent = this.dadosSolicitacao.nome;
+                document.getElementById('validacaoEpi').textContent = this.dadosSolicitacao.epi;
+                document.getElementById('validacaoQtd').textContent = this.dadosSolicitacao.quantidade;
+
+                this.mostrarEtapa('etapaValidacao');
+                document.getElementById('responsavelTST').focus();
+            },
+
+            voltarSolicitar() {
+                this.mostrarEtapa('etapaSolicitar');
+            },
+
+            irParaAssinatura() {
+                const responsavel = document.getElementById('responsavelTST').value.trim();
+                const confirmacao = document.getElementById('confirmacaoTST').checked;
+                const treinamento = document.getElementById('treinamentoTST').checked;
+
+                if (!responsavel) {
+                    alert('❌ Por favor, informe o nome do responsável TST!');
+                    document.getElementById('responsavelTST').focus();
+                    return;
+                }
+
+                if (!confirmacao) {
+                    alert('❌ Por favor, confirme a entrega do EPI!');
+                    return;
+                }
+
+                if (!treinamento) {
+                    alert('❌ Por favor, confirme que o trabalhador foi orientado!');
+                    return;
+                }
+
+                this.dadosSolicitacao.responsavelTST = responsavel;
+                this.dadosSolicitacao.registroTST = document.getElementById('registroTST').value.trim();
+
+                document.getElementById('assinaturaNome').textContent = this.dadosSolicitacao.nome;
+                document.getElementById('assinaturaEpi').textContent = this.dadosSolicitacao.epi;
+                document.getElementById('assinaturaResponsavel').textContent = this.dadosSolicitacao.responsavelTST;
+
+                this.mostrarEtapa('etapaAssinatura');
+            },
+
+            voltarValidacao() {
+                this.mostrarEtapa('etapaValidacao');
+            },
+
+            finalizarSolicitacao() {
+                const canvas = document.getElementById('canvasAssinatura');
+                if (!canvas) return;
+
+                const dataUrl = canvas.toDataURL();
+                if (dataUrl.length < 1000) {
+                    alert('❌ Por favor, realize a assinatura antes de finalizar!');
+                    return;
+                }
+
+                const registro = {
+                    id: Date.now(),
+                    data: new Date().toISOString().split('T')[0],
+                    hora: new Date().toLocaleTimeString('pt-BR'),
+                    funcionario: this.dadosSolicitacao.nome,
+                    matricula: this.dadosSolicitacao.matricula,
+                    funcao: localStorage.getItem('trabalhadorFuncao') || '-',
+                    epi: this.dadosSolicitacao.epi,
+                    quantidade: this.dadosSolicitacao.quantidade,
+                    observacao: this.dadosSolicitacao.observacao || '-',
+                    responsavelTST: this.dadosSolicitacao.responsavelTST,
+                    registroTST: this.dadosSolicitacao.registroTST || '-',
+                    assinatura: dataUrl,
+                    assinado: true,
+                    timestamp: new Date().toISOString()
+                };
+
+                this.registros.push(registro);
+                this.salvarRegistros();
+
+                document.getElementById('histNome').textContent = registro.funcionario;
+                document.getElementById('histMatricula').textContent = registro.matricula;
+                document.getElementById('histEpi').textContent = registro.epi;
+                document.getElementById('histQtd').textContent = registro.quantidade;
+                document.getElementById('histTST').textContent = registro.responsavelTST;
+                document.getElementById('histData').textContent = `${registro.data} ${registro.hora}`;
+
+                this.mostrarEtapa('etapaHistorico');
+                this.atualizarBadge();
+            },
+
+            novaSolicitacao() {
+                this.dadosSolicitacao = {};
+                document.getElementById('epiSelect').value = '';
+                document.getElementById('quantidadeEPI').value = '1';
+                document.getElementById('observacaoEPI').value = '';
+                document.getElementById('responsavelTST').value = '';
+                document.getElementById('registroTST').value = '';
+                document.getElementById('confirmacaoTST').checked = false;
+                document.getElementById('treinamentoTST').checked = false;
+
+                const canvas = document.getElementById('canvasAssinatura');
+                if (canvas && canvas._limpar) {
+                    canvas._limpar();
+                }
+
+                this.mostrarEtapa('etapaSolicitar');
+                this.atualizarResumo();
+            },
+
+            sairTotem() {
+                if (confirm('Deseja sair do totem? O próximo trabalhador poderá usar.')) {
+                    localStorage.removeItem('trabalhadorNome');
+                    localStorage.removeItem('trabalhadorMatricula');
+                    localStorage.removeItem('trabalhadorFuncao');
+                    
+                    document.getElementById('sistema').style.display = 'none';
+                    document.getElementById('loginScreen').style.display = 'flex';
+                    
+                    document.getElementById('nomeTrabalhador').value = '';
+                    document.getElementById('matriculaTrabalhador').value = '';
+                    document.getElementById('funcaoTrabalhador').value = '';
+                    document.getElementById('mensagemErro').style.display = 'none';
+                    
+                    document.getElementById('nomeTrabalhador').focus();
+                }
+            },
+
+            renderizarHistorico() {
+                const container = document.getElementById('listaHistorico');
+                
+                if (this.registros.length === 0) {
+                    container.innerHTML = `
+                        <div class="historico-vazio">
+                            <span>📭</span>
+                            Nenhum registro encontrado.<br>
+                            <small style="color: #445544;">As entregas aparecerão aqui</small>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const registrosOrdenados = [...this.registros].reverse();
+                container.innerHTML = registrosOrdenados.map(r => `
+                    <div class="historico-item">
+                        <span class="h-data">${r.data} ${r.hora || ''}</span>
+                        <span class="h-nome">${r.funcionario}</span>
+                        <span class="h-matricula">${r.matricula}</span>
+                        <span class="h-epi">${r.epi}</span>
+                        <span class="h-tst">${r.responsavelTST}</span>
+                        <span class="h-status assinado">✅ Assinado</span>
+                    </div>
+                `).join('');
+            }
+        };
+
+        // ============================================================
+        // FUNÇÕES GLOBAIS
+        // ============================================================
+        function irParaValidacao() { if (app) app.irParaValidacao(); }
+        function voltarSolicitar() { if (app) app.voltarSolicitar(); }
+        function irParaAssinatura() { if (app) app.irParaAssinatura(); }
+        function voltarValidacao() { if (app) app.voltarValidacao(); }
+        function finalizarSolicitacao() { if (app) app.finalizarSolicitacao(); }
+        function novaSolicitacao() { if (app) app.novaSolicitacao(); }
+        function sairTotem() { if (app) app.sairTotem(); }
+
+        function limparAssinatura() {
+            const canvas = document.getElementById('canvasAssinatura');
+            if (canvas && canvas._limpar) {
+                canvas._limpar();
+            }
+        }
+
+        function salvarAssinatura() {
+            const canvas = document.getElementById('canvasAssinatura');
+            if (!canvas) return;
+
+            const dataUrl = canvas.toDataURL();
+            if (dataUrl.length < 1000) {
+                alert('❌ Por favor, faça sua assinatura antes de salvar!');
+                return;
+            }
+
+            const statusEl = document.getElementById('assinaturaStatus');
+            if (statusEl) {
+                statusEl.textContent = '✅ Assinatura realizada com sucesso!';
+                statusEl.className = 'assinatura-status sucesso';
+            }
+
+            localStorage.setItem('assinaturaSalva', dataUrl);
+        }
+
+        function abrirHistorico() {
+            if (app) {
+                app.carregarRegistros();
+                app.renderizarHistorico();
+            }
+            document.getElementById('modalHistorico').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharHistorico() {
+            document.getElementById('modalHistorico').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // ============================================================
+        // INICIALIZAR
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            app.init();
+        });
+    </script>
+
+</body>
+</html>
