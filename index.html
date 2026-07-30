@@ -402,29 +402,6 @@
             gap: 15px;
         }
 
-        .trabalhador-info {
-            font-size: 13px;
-            display: block;
-            color: #889988;
-            padding: 5px 10px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 10px;
-            border: 1px solid rgba(76, 175, 80, 0.08);
-        }
-
-        .trabalhador-info strong {
-            display: block;
-            font-size: 16px;
-            color: #e8f5e9;
-            margin-top: 2px;
-            font-weight: 700;
-        }
-
-        .trabalhador-info span {
-            font-size: 12px;
-            opacity: 0.6;
-        }
-
         /* ============================================================
            CONTEÚDO DO TOTEM
            ============================================================ */
@@ -1497,7 +1474,7 @@
         }
 
         /* ============================================================
-           MODAL EMERGÊNCIA - APENAS HTML
+           MODAL EMERGÊNCIA
            ============================================================ */
         .modal-emergencia {
             display: none;
@@ -1802,14 +1779,6 @@
             .header-logo {
                 max-width: 35px;
             }
-            
-            .trabalhador-info {
-                font-size: 12px;
-            }
-            
-            .trabalhador-info strong {
-                font-size: 14px;
-            }
 
             .modal-conteudo {
                 padding: 15px;
@@ -1831,7 +1800,7 @@
         }
 
         /* ============================================================
-           CONFIRMAÇÃO SAIR - ESTILO HTML
+           MODAL CONFIRMAÇÃO SAIR - APENAS HTML
            ============================================================ */
         .modal-confirmacao-sair {
             display: none;
@@ -1972,7 +1941,7 @@
             <div class="login-form">
                 <div class="form-group">
                     <label>👤 Usuário</label>
-                    <input type="text" id="nomeTrabalhador" placeholder="Digite seu usuário" autofocus>
+                    <input type="text" id="nomeTrabalhador" placeholder="Digite seu usuario" autofocus>
                 </div>
                 
                 <div class="form-group">
@@ -2001,11 +1970,7 @@
                 </div>
             </div>
             <div class="totem-header-right">
-                <span class="trabalhador-info">
-                    👤 <strong id="headerTrabalhador">-</strong>
-                    <span id="headerCodigo">-</span>
-                    <span id="headerTipo" style="display:block;font-size:11px;color:#4CAF50;"></span>
-                </span>
+                <!-- As informações do trabalhador não são mais exibidas aqui -->
             </div>
         </header>
 
@@ -2466,11 +2431,11 @@
 
             contas: {
                 trabalhadores: [
-                    { nome: 'João Silva', codigo: '123', funcao: 'Operador' },
-                    { nome: 'Maria Santos', codigo: '456', funcao: 'Técnica' },
-                    { nome: 'Carlos Lima', codigo: '789', funcao: 'Mecânico' }
+                    { nome: 'joao', codigo: '123', funcao: 'Operador' },
+                    { nome: 'maria', codigo: '456', funcao: 'Tecnica' },
+                    { nome: 'carlos', codigo: '789', funcao: 'Mecanico' }
                 ],
-                tst: { nome: 'TST Responsável', codigo: '1234', funcao: 'TST' }
+                tst: { nome: 'tst', codigo: '1234', funcao: 'TST' }
             },
 
             init() {
@@ -2549,22 +2514,6 @@
                 }
             },
 
-            atualizarHeader() {
-                const nome = localStorage.getItem('trabalhadorNome') || '-';
-                const codigo = localStorage.getItem('trabalhadorCodigo') || '-';
-                const tipo = localStorage.getItem('tipoUsuario') || '';
-                document.getElementById('headerTrabalhador').textContent = nome;
-                document.getElementById('headerCodigo').textContent = codigo;
-                const tipoEl = document.getElementById('headerTipo');
-                if (tipo === 'tst') {
-                    tipoEl.textContent = '🔒 TST';
-                    tipoEl.style.color = '#FF9800';
-                } else {
-                    tipoEl.textContent = '👷 Trabalhador';
-                    tipoEl.style.color = '#4CAF50';
-                }
-            },
-
             atualizarResumo() {
                 const nome = localStorage.getItem('trabalhadorNome') || '-';
                 const codigo = localStorage.getItem('trabalhadorCodigo') || '-';
@@ -2573,20 +2522,15 @@
             },
 
             verificarLogin(nome, codigo) {
+                // Verifica se é o TST
                 if (nome.toLowerCase() === 'tst' && codigo === '1234') {
                     this.tipoUsuario = 'tst';
-                    return { nome: 'TST Responsável', codigo: '1234', funcao: 'TST' };
+                    return { nome: 'tst', codigo: '1234', funcao: 'TST' };
                 }
 
+                // Verifica trabalhadores
                 for (let t of this.contas.trabalhadores) {
                     if (t.nome.toLowerCase() === nome.toLowerCase() && t.codigo === codigo) {
-                        this.tipoUsuario = 'trabalhador';
-                        return t;
-                    }
-                }
-
-                for (let t of this.contas.trabalhadores) {
-                    if (t.nome.toLowerCase() === nome.toLowerCase()) {
                         this.tipoUsuario = 'trabalhador';
                         return t;
                     }
@@ -2601,7 +2545,7 @@
                 const erro = document.getElementById('mensagemErro');
 
                 if (!nome) {
-                    erro.textContent = '❌ Por favor, informe seu usuário!';
+                    erro.textContent = '❌ Por favor, informe seu usuario!';
                     erro.style.display = 'block';
                     document.getElementById('nomeTrabalhador').focus();
                     return;
@@ -2616,7 +2560,7 @@
 
                 const usuario = this.verificarLogin(nome, codigo);
                 if (!usuario) {
-                    erro.textContent = '❌ Usuário ou senha incorretos! Tente novamente.';
+                    erro.textContent = '❌ Usuario ou senha incorretos! Tente novamente.';
                     erro.style.display = 'block';
                     document.getElementById('nomeTrabalhador').focus();
                     return;
@@ -2633,7 +2577,6 @@
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('sistema').style.display = 'flex';
 
-                this.atualizarHeader();
                 this.atualizarResumo();
                 this.mostrarEtapa('etapaSolicitar');
 
