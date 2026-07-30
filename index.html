@@ -310,6 +310,43 @@
             font-size: 14px;
             border-left: 4px solid #c62828;
             border: 1px solid rgba(198, 40, 40, 0.2);
+            display: none;
+        }
+
+        .mensagem-erro.visible {
+            display: block;
+        }
+
+        .mensagem-sucesso {
+            margin-top: 15px;
+            padding: 12px 16px;
+            background: rgba(76, 175, 80, 0.15);
+            color: #81C784;
+            border-radius: 12px;
+            font-size: 14px;
+            border-left: 4px solid #4CAF50;
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            display: none;
+        }
+
+        .mensagem-sucesso.visible {
+            display: block;
+        }
+
+        .mensagem-aviso {
+            margin-top: 15px;
+            padding: 12px 16px;
+            background: rgba(255, 193, 7, 0.15);
+            color: #ffd54f;
+            border-radius: 12px;
+            font-size: 14px;
+            border-left: 4px solid #FFC107;
+            border: 1px solid rgba(255, 193, 7, 0.2);
+            display: none;
+        }
+
+        .mensagem-aviso.visible {
+            display: block;
         }
 
         /* ============================================================
@@ -982,6 +1019,13 @@
             background: rgba(76, 175, 80, 0.1);
             color: #81C784;
             border: 1px solid rgba(76, 175, 80, 0.15);
+        }
+
+        .assinatura-status.erro {
+            display: block;
+            background: rgba(198, 40, 40, 0.15);
+            color: #ef9a9a;
+            border: 1px solid rgba(198, 40, 40, 0.2);
         }
 
         .botoes-assinatura-final {
@@ -1889,6 +1933,29 @@
             background: rgba(255, 255, 255, 0.1);
             color: #e8f5e9;
         }
+
+        /* Mensagens de erro inline */
+        .erro-inline {
+            color: #ef9a9a;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .erro-inline.visible {
+            display: block;
+        }
+
+        .sucesso-inline {
+            color: #81C784;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .sucesso-inline.visible {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -1952,7 +2019,7 @@
                 <button id="btnIniciar" class="btn-login">
                     <span>🚀</span> Iniciar Solicitação
                 </button>
-                <div id="mensagemErro" class="mensagem-erro" style="display:none;"></div>
+                <div id="mensagemErro" class="mensagem-erro"></div>
             </div>
         </div>
     </div>
@@ -2013,6 +2080,7 @@
                                 <option value="Protetor Facial">🛡️ Protetor Facial</option>
                                 <option value="Avental de Segurança">🧪 Avental de Segurança</option>
                             </select>
+                            <div id="erroEpi" class="erro-inline">❌ Por favor, selecione um EPI!</div>
                         </div>
 
                         <div class="form-group">
@@ -2084,6 +2152,7 @@
                         <div class="form-group">
                             <label>👷 Nome do Responsável TST *</label>
                             <input type="text" id="responsavelTST" placeholder="Digite o nome do responsável" autofocus>
+                            <div id="erroResponsavel" class="erro-inline">❌ Por favor, informe o nome do responsável TST!</div>
                         </div>
 
                         <div class="form-group">
@@ -2096,10 +2165,12 @@
                                 <input type="checkbox" id="confirmacaoTST">
                                 Confirmo que o EPI foi entregue em perfeitas condições
                             </label>
+                            <div id="erroConfirmacao" class="erro-inline">❌ Por favor, confirme a entrega do EPI!</div>
                             <label class="checkbox-label">
                                 <input type="checkbox" id="treinamentoTST">
                                 O trabalhador foi orientado sobre o uso correto
                             </label>
+                            <div id="erroTreinamento" class="erro-inline">❌ Por favor, confirme que o trabalhador foi orientado!</div>
                         </div>
 
                         <div class="botoes-validacao">
@@ -2149,6 +2220,7 @@
                                 <button class="btn-limpar" onclick="limparAssinatura()">🗑️ Limpar</button>
                             </div>
                             <div id="assinaturaStatus" class="assinatura-status"></div>
+                            <div id="erroAssinatura" class="erro-inline">❌ Por favor, realize a assinatura antes de finalizar!</div>
                         </div>
 
                         <div class="botoes-assinatura-final">
@@ -2272,7 +2344,7 @@
         function toggleFullScreen() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().catch(err => {
-                    alert('⚠️ Não foi possível entrar em tela cheia.');
+                    mostrarMensagem('erro', '⚠️ Não foi possível entrar em tela cheia.');
                 });
                 isFullScreen = true;
             } else {
@@ -2280,6 +2352,56 @@
                     document.exitFullscreen();
                     isFullScreen = false;
                 }
+            }
+        }
+
+        // ============================================================
+        // FUNÇÕES DE MENSAGENS
+        // ============================================================
+        function mostrarMensagem(tipo, texto) {
+            const tipos = {
+                erro: 'mensagem-erro',
+                sucesso: 'mensagem-sucesso',
+                aviso: 'mensagem-aviso'
+            };
+            
+            const classe = tipos[tipo] || 'mensagem-erro';
+            const elementos = document.querySelectorAll('.' + classe);
+            
+            elementos.forEach(el => {
+                el.textContent = texto;
+                el.className = classe + ' visible';
+            });
+            
+            if (tipo === 'erro' || tipo === 'aviso') {
+                setTimeout(() => {
+                    elementos.forEach(el => {
+                        el.classList.remove('visible');
+                    });
+                }, 5000);
+            }
+        }
+
+        function mostrarErroInline(id, texto) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.textContent = texto || el.textContent;
+                el.classList.add('visible');
+                setTimeout(() => {
+                    el.classList.remove('visible');
+                }, 4000);
+            }
+        }
+
+        function mostrarStatusAssinatura(texto, tipo) {
+            const el = document.getElementById('assinaturaStatus');
+            if (el) {
+                el.textContent = texto;
+                el.className = 'assinatura-status ' + tipo;
+                el.style.display = 'block';
+                setTimeout(() => {
+                    el.style.display = 'none';
+                }, 3000);
             }
         }
 
@@ -2378,7 +2500,7 @@
         }
 
         // ============================================================
-        // FUNÇÕES CONFIRMAÇÃO SAIR - APENAS HTML
+        // FUNÇÕES CONFIRMAÇÃO SAIR
         // ============================================================
         function abrirConfirmacaoSair() {
             document.getElementById('modalConfirmacaoSair').classList.add('active');
@@ -2403,7 +2525,7 @@
             
             document.getElementById('nomeTrabalhador').value = '';
             document.getElementById('codigoTrabalhador').value = '';
-            document.getElementById('mensagemErro').style.display = 'none';
+            document.getElementById('mensagemErro').classList.remove('visible');
             
             document.getElementById('nomeTrabalhador').focus();
 
@@ -2522,13 +2644,11 @@
             },
 
             verificarLogin(nome, codigo) {
-                // Verifica se é o TST
                 if (nome.toLowerCase() === 'tst' && codigo === '1234') {
                     this.tipoUsuario = 'tst';
                     return { nome: 'tst', codigo: '1234', funcao: 'TST' };
                 }
 
-                // Verifica trabalhadores
                 for (let t of this.contas.trabalhadores) {
                     if (t.nome.toLowerCase() === nome.toLowerCase() && t.codigo === codigo) {
                         this.tipoUsuario = 'trabalhador';
@@ -2542,31 +2662,31 @@
             iniciarSolicitacao() {
                 const nome = document.getElementById('nomeTrabalhador').value.trim();
                 const codigo = document.getElementById('codigoTrabalhador').value.trim();
-                const erro = document.getElementById('mensagemErro');
+                const erroEl = document.getElementById('mensagemErro');
 
                 if (!nome) {
-                    erro.textContent = '❌ Por favor, informe seu usuario!';
-                    erro.style.display = 'block';
+                    erroEl.textContent = '❌ Por favor, informe seu usuario!';
+                    erroEl.className = 'mensagem-erro visible';
                     document.getElementById('nomeTrabalhador').focus();
                     return;
                 }
 
                 if (!codigo) {
-                    erro.textContent = '❌ Por favor, informe sua senha!';
-                    erro.style.display = 'block';
+                    erroEl.textContent = '❌ Por favor, informe sua senha!';
+                    erroEl.className = 'mensagem-erro visible';
                     document.getElementById('codigoTrabalhador').focus();
                     return;
                 }
 
                 const usuario = this.verificarLogin(nome, codigo);
                 if (!usuario) {
-                    erro.textContent = '❌ Usuario ou senha incorretos! Tente novamente.';
-                    erro.style.display = 'block';
+                    erroEl.textContent = '❌ Usuario ou senha incorretos! Tente novamente.';
+                    erroEl.className = 'mensagem-erro visible';
                     document.getElementById('nomeTrabalhador').focus();
                     return;
                 }
 
-                erro.style.display = 'none';
+                erroEl.className = 'mensagem-erro';
 
                 this.usuarioAtual = usuario;
                 localStorage.setItem('trabalhadorNome', usuario.nome);
@@ -2648,6 +2768,8 @@
                     
                     app.assinaturaSalva = null;
                     localStorage.removeItem('assinaturaSalva');
+                    
+                    document.getElementById('erroAssinatura').classList.remove('visible');
                 };
 
                 let desenhando = false;
@@ -2672,6 +2794,7 @@
                     ultimoY = pos.y;
                     ctx.beginPath();
                     ctx.moveTo(ultimoX, ultimoY);
+                    document.getElementById('erroAssinatura').classList.remove('visible');
                 }
 
                 function desenhar(e) {
@@ -2717,10 +2840,12 @@
                 const observacao = document.getElementById('observacaoEPI').value.trim();
 
                 if (!epi) {
-                    alert('❌ Por favor, selecione um EPI!');
+                    mostrarErroInline('erroEpi', '❌ Por favor, selecione um EPI!');
                     document.getElementById('epiSelect').focus();
                     return;
                 }
+
+                document.getElementById('erroEpi').classList.remove('visible');
 
                 this.dadosSolicitacao = {
                     nome: document.getElementById('resumoNome').textContent,
@@ -2755,21 +2880,31 @@
                 const confirmacao = document.getElementById('confirmacaoTST').checked;
                 const treinamento = document.getElementById('treinamentoTST').checked;
 
+                let temErro = false;
+
                 if (!responsavel) {
-                    alert('❌ Por favor, informe o nome do responsável TST!');
+                    mostrarErroInline('erroResponsavel', '❌ Por favor, informe o nome do responsável TST!');
                     document.getElementById('responsavelTST').focus();
-                    return;
+                    temErro = true;
+                } else {
+                    document.getElementById('erroResponsavel').classList.remove('visible');
                 }
 
                 if (!confirmacao) {
-                    alert('❌ Por favor, confirme a entrega do EPI!');
-                    return;
+                    mostrarErroInline('erroConfirmacao', '❌ Por favor, confirme a entrega do EPI!');
+                    temErro = true;
+                } else {
+                    document.getElementById('erroConfirmacao').classList.remove('visible');
                 }
 
                 if (!treinamento) {
-                    alert('❌ Por favor, confirme que o trabalhador foi orientado!');
-                    return;
+                    mostrarErroInline('erroTreinamento', '❌ Por favor, confirme que o trabalhador foi orientado!');
+                    temErro = true;
+                } else {
+                    document.getElementById('erroTreinamento').classList.remove('visible');
                 }
+
+                if (temErro) return;
 
                 this.dadosSolicitacao.responsavelTST = responsavel;
                 this.dadosSolicitacao.registroTST = document.getElementById('registroTST').value.trim();
@@ -2791,9 +2926,11 @@
 
                 const dataUrl = canvas.toDataURL();
                 if (dataUrl.length < 1000) {
-                    alert('❌ Por favor, realize a assinatura antes de finalizar!');
+                    mostrarErroInline('erroAssinatura', '❌ Por favor, realize a assinatura antes de finalizar!');
                     return;
                 }
+
+                document.getElementById('erroAssinatura').classList.remove('visible');
 
                 this.assinaturaSalva = dataUrl;
                 localStorage.setItem('assinaturaSalva', dataUrl);
@@ -2868,6 +3005,11 @@
                 document.getElementById('confirmacaoTST').checked = false;
                 document.getElementById('treinamentoTST').checked = false;
                 document.getElementById('erroSenhaTecnico').classList.remove('visible');
+                document.getElementById('erroEpi').classList.remove('visible');
+                document.getElementById('erroResponsavel').classList.remove('visible');
+                document.getElementById('erroConfirmacao').classList.remove('visible');
+                document.getElementById('erroTreinamento').classList.remove('visible');
+                document.getElementById('erroAssinatura').classList.remove('visible');
 
                 if (typeof window.limparAssinaturaGlobal === 'function') {
                     window.limparAssinaturaGlobal();
@@ -2944,12 +3086,12 @@
 
             exportarPDF() {
                 if (!this.historicoDesbloqueado) {
-                    alert('🔒 Por favor, desbloqueie o histórico com a senha primeiro!');
+                    mostrarMensagem('erro', '🔒 Por favor, desbloqueie o histórico com a senha primeiro!');
                     return;
                 }
 
                 if (this.registros.length === 0) {
-                    alert('📭 Não há registros para exportar!');
+                    mostrarMensagem('aviso', '📭 Não há registros para exportar!');
                     return;
                 }
 
@@ -3044,33 +3186,35 @@
                 document.body.removeChild(link);
                 URL.revokeObjectURL(link.href);
                 
-                alert('✅ PDF do histórico exportado com sucesso!');
+                mostrarMensagem('sucesso', '✅ PDF do histórico exportado com sucesso!');
             },
 
             excluirHistorico() {
                 if (!this.historicoDesbloqueado) {
-                    alert('🔒 Por favor, desbloqueie o histórico com a senha primeiro!');
+                    mostrarMensagem('erro', '🔒 Por favor, desbloqueie o histórico com a senha primeiro!');
                     return;
                 }
 
                 if (this.registros.length === 0) {
-                    alert('📭 Não há registros para excluir!');
+                    mostrarMensagem('aviso', '📭 Não há registros para excluir!');
                     return;
                 }
 
-                if (confirm('⚠️ ATENÇÃO! Isso irá excluir permanentemente TODO o histórico.\n\nDeseja continuar?')) {
-                    if (confirm('🔒 Confirme a exclusão:')) {
-                        const senhaConfirmacao = prompt('Digite a senha para confirmar a exclusão:');
-                        if (senhaConfirmacao === this.senhaHistorico) {
-                            this.registros = [];
-                            this.salvarRegistros();
-                            this.renderizarHistorico();
-                            this.atualizarBadge();
-                            alert('✅ Histórico excluído com sucesso!');
-                        } else {
-                            alert('❌ Senha incorreta! Operação cancelada.');
-                        }
-                    }
+                const confirmar = confirm('⚠️ ATENÇÃO! Isso irá excluir permanentemente TODO o histórico.\n\nDeseja continuar?');
+                if (!confirmar) return;
+
+                const confirmar2 = confirm('🔒 Confirme a exclusão:');
+                if (!confirmar2) return;
+
+                const senhaConfirmacao = prompt('Digite a senha para confirmar a exclusão:');
+                if (senhaConfirmacao === this.senhaHistorico) {
+                    this.registros = [];
+                    this.salvarRegistros();
+                    this.renderizarHistorico();
+                    this.atualizarBadge();
+                    mostrarMensagem('sucesso', '✅ Histórico excluído com sucesso!');
+                } else {
+                    mostrarMensagem('erro', '❌ Senha incorreta! Operação cancelada.');
                 }
             }
         };
@@ -3115,6 +3259,7 @@
                     statusEl.style.display = 'none';
                     statusEl.className = 'assinatura-status';
                 }
+                document.getElementById('erroAssinatura').classList.remove('visible');
                 return;
             }
 
@@ -3147,6 +3292,7 @@
                 
                 app.assinaturaSalva = null;
                 localStorage.removeItem('assinaturaSalva');
+                document.getElementById('erroAssinatura').classList.remove('visible');
             }
         }
 
