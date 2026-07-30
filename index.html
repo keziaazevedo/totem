@@ -347,11 +347,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 18px 35px;
+            padding: 15px 30px;
             background: linear-gradient(180deg, rgba(20, 40, 20, 0.95), rgba(15, 30, 15, 0.95));
             border-bottom: 2px solid rgba(76, 175, 80, 0.15);
             flex-shrink: 0;
             position: relative;
+            min-height: 70px;
         }
 
         .totem-header::after {
@@ -367,16 +368,16 @@
         .totem-header-left {
             display: flex;
             align-items: center;
-            gap: 18px;
+            gap: 15px;
         }
 
         .header-logo {
-            max-width: 45px;
+            max-width: 40px;
             filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.15));
         }
 
         .totem-header-left h1 {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             color: #e8f5e9;
             letter-spacing: 2px;
@@ -387,7 +388,7 @@
         }
 
         .header-sub {
-            font-size: 12px;
+            font-size: 11px;
             opacity: 0.6;
             display: block;
             color: #889988;
@@ -396,24 +397,31 @@
 
         .totem-header-right {
             text-align: right;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
         .trabalhador-info {
             font-size: 13px;
             display: block;
             color: #889988;
+            padding: 5px 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            border: 1px solid rgba(76, 175, 80, 0.08);
         }
 
         .trabalhador-info strong {
             display: block;
-            font-size: 18px;
+            font-size: 16px;
             color: #e8f5e9;
             margin-top: 2px;
             font-weight: 700;
         }
 
         .trabalhador-info span {
-            font-size: 13px;
+            font-size: 12px;
             opacity: 0.6;
         }
 
@@ -422,7 +430,7 @@
            ============================================================ */
         .totem-conteudo {
             flex: 1;
-            padding: 30px 35px;
+            padding: 25px 30px;
             overflow-y: auto;
             background: rgba(10, 18, 10, 0.95);
         }
@@ -444,7 +452,7 @@
         .etapa-wrapper {
             background: rgba(18, 32, 18, 0.8);
             border-radius: 20px;
-            padding: 35px 40px;
+            padding: 30px 35px;
             border: 1px solid rgba(76, 175, 80, 0.1);
             box-shadow: 0 4px 30px rgba(0,0,0,0.3);
             backdrop-filter: blur(10px);
@@ -468,7 +476,7 @@
            ============================================================ */
         .etapa-header {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
 
         .etapa-badge {
@@ -481,13 +489,13 @@
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             border: 1px solid rgba(76, 175, 80, 0.15);
         }
 
         .etapa-header h2 {
             color: #e8f5e9;
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 700;
             letter-spacing: 1px;
         }
@@ -495,7 +503,7 @@
         .etapa-header p {
             color: #889988;
             font-size: 15px;
-            margin-top: 6px;
+            margin-top: 4px;
         }
 
         /* ============================================================
@@ -513,7 +521,7 @@
             padding: 18px 22px;
             background: rgba(255, 255, 255, 0.02);
             border-radius: 14px;
-            margin-bottom: 28px;
+            margin-bottom: 25px;
             border: 1px solid rgba(76, 175, 80, 0.08);
         }
 
@@ -538,7 +546,7 @@
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .form-group label {
@@ -773,7 +781,7 @@
         }
 
         .solicitacao-resumo {
-            margin-bottom: 28px;
+            margin-bottom: 25px;
         }
 
         .resumo-grid {
@@ -807,7 +815,7 @@
         }
 
         .checkbox-group-validacao {
-            margin: 22px 0;
+            margin: 20px 0;
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -843,7 +851,7 @@
         .botoes-validacao {
             display: flex;
             gap: 15px;
-            margin-top: 28px;
+            margin-top: 25px;
         }
 
         .btn-voltar {
@@ -915,7 +923,7 @@
         }
 
         .assinatura-area {
-            margin: 22px 0;
+            margin: 20px 0;
         }
 
         .assinatura-instrucao {
@@ -1002,7 +1010,7 @@
         .botoes-assinatura-final {
             display: flex;
             gap: 15px;
-            margin-top: 28px;
+            margin-top: 25px;
         }
 
         .btn-finalizar {
@@ -1055,7 +1063,7 @@
         }
 
         .confirmacao-grande {
-            margin-bottom: 28px;
+            margin-bottom: 25px;
         }
 
         .icone-sucesso {
@@ -1087,7 +1095,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin: 28px 0;
+            margin: 25px 0;
             text-align: left;
         }
 
@@ -1151,7 +1159,7 @@
         .botoes-finalizacao {
             display: flex;
             gap: 15px;
-            margin-top: 28px;
+            margin-top: 25px;
         }
 
         .btn-nova-solicitacao {
@@ -1489,7 +1497,7 @@
         }
 
         /* ============================================================
-           MODAL EMERGÊNCIA
+           MODAL EMERGÊNCIA - APENAS HTML
            ============================================================ */
         .modal-emergencia {
             display: none;
@@ -1566,7 +1574,7 @@
            RODAPÉ
            ============================================================ */
         .totem-footer {
-            padding: 14px 35px;
+            padding: 12px 30px;
             background: rgba(12, 20, 12, 0.95);
             border-top: 2px solid rgba(76, 175, 80, 0.08);
             display: flex;
@@ -1603,6 +1611,7 @@
             
             .totem-header-right {
                 text-align: center;
+                flex-direction: column;
             }
             
             .totem-conteudo {
@@ -1820,6 +1829,97 @@
                 left: 10px;
             }
         }
+
+        /* ============================================================
+           CONFIRMAÇÃO SAIR - ESTILO HTML
+           ============================================================ */
+        .modal-confirmacao-sair {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 3000;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-confirmacao-sair.active {
+            display: flex;
+        }
+
+        .modal-confirmacao-sair-content {
+            background: rgba(18, 32, 18, 0.95);
+            border-radius: 24px;
+            border: 2px solid rgba(76, 175, 80, 0.2);
+            max-width: 450px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+        }
+
+        .modal-confirmacao-sair-content .icone-sair {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .modal-confirmacao-sair-content h2 {
+            color: #e8f5e9;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .modal-confirmacao-sair-content p {
+            color: #889988;
+            font-size: 16px;
+            margin-bottom: 25px;
+        }
+
+        .modal-confirmacao-sair-content .botoes-confirmacao {
+            display: flex;
+            gap: 15px;
+        }
+
+        .modal-confirmacao-sair-content .btn-confirmar-sair {
+            flex: 1;
+            padding: 14px;
+            background: linear-gradient(135deg, #c62828, #f44336);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-confirmacao-sair-content .btn-confirmar-sair:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(198, 40, 40, 0.3);
+        }
+
+        .modal-confirmacao-sair-content .btn-cancelar-sair {
+            flex: 1;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            color: #889988;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-confirmacao-sair-content .btn-cancelar-sair:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e8f5e9;
+        }
     </style>
 </head>
 <body>
@@ -1841,10 +1941,22 @@
             <div class="icone-emergencia">🚨</div>
             <h2>⚠️ EMERGÊNCIA ACIONADA!</h2>
             <p>Alerta de emergência ativado!</p>
-            <p id="emergenciaInfo" style="color:#889988;font-size:14px;">Aguardando...</p>
-            <div class="emergencia-timer" id="emergenciaTimer">🔄 Alarme em execução</div>
+            <div class="emergencia-timer">🔴 EMERGÊNCIA EM ANDAMENTO</div>
             <br>
             <button class="btn-fechar-emergencia" onclick="fecharEmergencia()">✅ Desativar Alarme</button>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL CONFIRMAÇÃO SAIR ==================== -->
+    <div id="modalConfirmacaoSair" class="modal-confirmacao-sair">
+        <div class="modal-confirmacao-sair-content">
+            <div class="icone-sair">🚪</div>
+            <h2>Sair do Totem</h2>
+            <p>Deseja realmente sair do sistema? O próximo trabalhador poderá usar.</p>
+            <div class="botoes-confirmacao">
+                <button class="btn-cancelar-sair" onclick="fecharConfirmacaoSair()">Cancelar</button>
+                <button class="btn-confirmar-sair" onclick="confirmarSair()">✅ Sair</button>
+            </div>
         </div>
     </div>
 
@@ -2137,7 +2249,7 @@
                             <button class="btn-nova-solicitacao" onclick="novaSolicitacao()">
                                 🔄 Nova Solicitação
                             </button>
-                            <button class="btn-sair-totem" onclick="sairTotem()">
+                            <button class="btn-sair-totem" onclick="abrirConfirmacaoSair()">
                                 🚪 Sair do Totem
                             </button>
                         </div>
@@ -2199,21 +2311,12 @@
                 });
                 isFullScreen = true;
             } else {
-                // Não sair da tela cheia automaticamente
                 if (document.exitFullscreen) {
-                    // Não pergunta, apenas mantém a tela cheia
-                    // O usuário só sai se pressionar ESC
+                    document.exitFullscreen();
+                    isFullScreen = false;
                 }
             }
         }
-
-        // Força a tela cheia se o usuário tentar sair
-        document.addEventListener('fullscreenchange', function() {
-            if (!document.fullscreenElement && isFullScreen) {
-                // Se saiu da tela cheia mas a flag diz que deve estar, entra novamente
-                document.documentElement.requestFullscreen().catch(err => {});
-            }
-        });
 
         // ============================================================
         // FUNÇÕES EMERGÊNCIA
@@ -2223,13 +2326,11 @@
 
         function tocarAlertaEmergencia() {
             try {
-                // Tenta usar o arquivo alerta.mp3
                 audioEmergencia = new Audio('alerta.mp3');
                 audioEmergencia.loop = true;
                 audioEmergencia.volume = 1.0;
                 audioEmergencia.play().catch(e => {
                     console.log('Erro ao tocar áudio:', e);
-                    // Fallback: tenta criar um som de emergência usando Web Audio API
                     tocarAlertaFallback();
                 });
             } catch (e) {
@@ -2240,7 +2341,6 @@
 
         function tocarAlertaFallback() {
             try {
-                // Cria um som de emergência usando Web Audio API
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 const oscillator = audioCtx.createOscillator();
                 const gainNode = audioCtx.createGain();
@@ -2254,7 +2354,6 @@
                 
                 oscillator.start();
                 
-                // Modula a frequência para criar efeito de alarme
                 let count = 0;
                 const interval = setInterval(() => {
                     if (!emergenciaAtiva) {
@@ -2266,7 +2365,6 @@
                     oscillator.frequency.value = count % 2 === 0 ? 1000 : 800;
                 }, 300);
                 
-                // Armazena para parar depois
                 audioEmergencia = {
                     stop: function() {
                         clearInterval(interval);
@@ -2291,10 +2389,7 @@
         }
 
         function acionarEmergencia() {
-            if (emergenciaAtiva) {
-                alert('🚨 A emergência já foi acionada!');
-                return;
-            }
+            if (emergenciaAtiva) return;
 
             emergenciaAtiva = true;
             const btn = document.getElementById('btnEmergenciaFlutuante');
@@ -2304,20 +2399,6 @@
             tocarAlertaEmergencia();
 
             document.getElementById('modalEmergencia').classList.add('active');
-            document.getElementById('emergenciaInfo').textContent = '🔊 Alarme sonoro ativado!';
-            document.getElementById('emergenciaTimer').textContent = '🔴 EMERGÊNCIA EM ANDAMENTO';
-
-            // Registra no histórico local
-            const emergencias = JSON.parse(localStorage.getItem('emergencias') || '[]');
-            emergencias.push({
-                id: Date.now(),
-                data: new Date().toISOString(),
-                usuario: localStorage.getItem('trabalhadorNome') || 'Sistema',
-                tipo: 'emergencia'
-            });
-            localStorage.setItem('emergencias', JSON.stringify(emergencias));
-
-            atualizarBadgeEmergencia();
         }
 
         function fecharEmergencia() {
@@ -2329,17 +2410,43 @@
             const btn = document.getElementById('btnEmergenciaFlutuante');
             btn.classList.remove('ativo');
             btn.innerHTML = '🚨 EMERGÊNCIA <span class="badge-emergencia">!</span>';
-            
-            setTimeout(() => {
-                localStorage.removeItem('emergenciaAlerta');
-            }, 5000);
         }
 
-        function atualizarBadgeEmergencia() {
-            const emergencias = JSON.parse(localStorage.getItem('emergencias') || '[]');
-            const badge = document.getElementById('emergenciaBadge');
-            if (badge) {
-                badge.textContent = emergencias.length > 0 ? emergencias.length : '!';
+        // ============================================================
+        // FUNÇÕES CONFIRMAÇÃO SAIR - APENAS HTML
+        // ============================================================
+        function abrirConfirmacaoSair() {
+            document.getElementById('modalConfirmacaoSair').classList.add('active');
+        }
+
+        function fecharConfirmacaoSair() {
+            document.getElementById('modalConfirmacaoSair').classList.remove('active');
+        }
+
+        function confirmarSair() {
+            document.getElementById('modalConfirmacaoSair').classList.remove('active');
+            
+            const estavaEmTelaCheia = !!document.fullscreenElement || isFullScreen;
+            
+            localStorage.removeItem('trabalhadorNome');
+            localStorage.removeItem('trabalhadorCodigo');
+            localStorage.removeItem('trabalhadorFuncao');
+            localStorage.removeItem('tipoUsuario');
+            
+            document.getElementById('sistema').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+            
+            document.getElementById('nomeTrabalhador').value = '';
+            document.getElementById('codigoTrabalhador').value = '';
+            document.getElementById('mensagemErro').style.display = 'none';
+            
+            document.getElementById('nomeTrabalhador').focus();
+
+            if (estavaEmTelaCheia) {
+                isFullScreen = true;
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(err => {});
+                }
             }
         }
 
@@ -2369,7 +2476,6 @@
             init() {
                 this.carregarRegistros();
                 this.atualizarBadge();
-                atualizarBadgeEmergencia();
 
                 document.getElementById('loginScreen').style.display = 'flex';
                 document.getElementById('sistema').style.display = 'none';
@@ -2411,6 +2517,7 @@
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') {
                         fecharHistorico();
+                        fecharConfirmacaoSair();
                     }
                 });
 
@@ -2530,7 +2637,6 @@
                 this.atualizarResumo();
                 this.mostrarEtapa('etapaSolicitar');
 
-                // Garante a tela cheia
                 if (!document.fullscreenElement && isFullScreen) {
                     document.documentElement.requestFullscreen().catch(err => {});
                 }
@@ -2833,40 +2939,8 @@
                 this.mostrarEtapa('etapaSolicitar');
                 this.atualizarResumo();
 
-                // Mantém a tela cheia
                 if (!document.fullscreenElement && isFullScreen) {
                     document.documentElement.requestFullscreen().catch(err => {});
-                }
-            },
-
-            sairTotem() {
-                if (confirm('Deseja sair do totem? O próximo trabalhador poderá usar.')) {
-                    // Salva o estado da tela cheia ANTES de sair
-                    const estavaEmTelaCheia = !!document.fullscreenElement || isFullScreen;
-                    
-                    localStorage.removeItem('trabalhadorNome');
-                    localStorage.removeItem('trabalhadorCodigo');
-                    localStorage.removeItem('trabalhadorFuncao');
-                    localStorage.removeItem('tipoUsuario');
-                    
-                    document.getElementById('sistema').style.display = 'none';
-                    document.getElementById('loginScreen').style.display = 'flex';
-                    
-                    document.getElementById('nomeTrabalhador').value = '';
-                    document.getElementById('codigoTrabalhador').value = '';
-                    document.getElementById('mensagemErro').style.display = 'none';
-                    
-                    document.getElementById('nomeTrabalhador').focus();
-
-                    // Mantém a tela cheia
-                    if (estavaEmTelaCheia) {
-                        isFullScreen = true;
-                        if (!document.fullscreenElement) {
-                            document.documentElement.requestFullscreen().catch(err => {
-                                console.log('Erro ao manter tela cheia:', err);
-                            });
-                        }
-                    }
                 }
             },
 
@@ -3089,7 +3163,6 @@
         function voltarValidacao() { if (app) app.voltarValidacao(); }
         function finalizarSolicitacao() { if (app) app.finalizarSolicitacao(); }
         function novaSolicitacao() { if (app) app.novaSolicitacao(); }
-        function sairTotem() { if (app) app.sairTotem(); }
 
         function limparAssinatura() {
             if (typeof window.limparAssinaturaGlobal === 'function') {
