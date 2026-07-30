@@ -6,7 +6,7 @@
     <title>Totem - Controle de EPIs</title>
     <style>
         /* ============================================================
-           TOTEM.CSS - Layout Completo com Bordas e Efeitos
+           TOTEM.CSS - Layout Completo
            ============================================================ */
         * {
             margin: 0;
@@ -14,21 +14,59 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #0a0a0a;
-            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* ============================================================
+           BOTÃO TELA CHEIA
+           ============================================================ */
+        .btn-fullscreen {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 9999;
+            padding: 10px 18px;
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid rgba(76, 175, 80, 0.3);
+            border-radius: 12px;
+            color: #e8f5e9;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-fullscreen:hover {
+            background: rgba(76, 175, 80, 0.4);
+            border-color: rgba(76, 175, 80, 0.6);
+            transform: scale(1.05);
+        }
+
+        .btn-fullscreen .icon {
+            font-size: 18px;
         }
 
         /* ============================================================
            SCROLLBAR PERSONALIZADA
            ============================================================ */
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-track {
             background: #1a1a1a;
@@ -37,7 +75,6 @@
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(180deg, #4CAF50, #2d7a3a);
             border-radius: 4px;
-            border: 1px solid #1a472a;
         }
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(180deg, #66BB6A, #4CAF50);
@@ -228,19 +265,18 @@
         }
 
         /* ============================================================
-           SISTEMA TOTEM
+           SISTEMA TOTEM - TELA CHEIA
            ============================================================ */
         #sistema {
             display: none;
             flex-direction: column;
             min-height: 100vh;
             width: 100%;
-            max-width: 1000px;
-            margin: 0 auto;
+            max-width: 100%;
+            margin: 0;
             background: rgba(12, 20, 12, 0.97);
-            box-shadow: 0 0 80px rgba(0,0,0,0.5);
-            border-left: 2px solid rgba(76, 175, 80, 0.1);
-            border-right: 2px solid rgba(76, 175, 80, 0.1);
+            box-shadow: none;
+            border: none;
             position: relative;
         }
 
@@ -417,7 +453,7 @@
         }
 
         /* ============================================================
-           ETAPA 1 - SOLICITAR
+           ETAPA 1 - SOLICITAR EPI
            ============================================================ */
         .solicitar-content {
             max-width: 600px;
@@ -569,10 +605,76 @@
         }
 
         /* ============================================================
-           ETAPA 2 - VALIDAÇÃO
+           ETAPA 1.5 - TÉCNICO A CAMINHO
+           ============================================================ */
+        .tecnico-caminho-content {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .tecnico-caminho-content .icone-tecnico {
+            font-size: 80px;
+            animation: bounceTecnico 2s infinite;
+        }
+
+        @keyframes bounceTecnico {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .tecnico-caminho-content h2 {
+            color: #e8f5e9;
+            font-size: 32px;
+            margin: 20px 0 10px;
+        }
+
+        .tecnico-caminho-content p {
+            color: #889988;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .tecnico-caminho-content .status-tecnico {
+            display: inline-block;
+            padding: 8px 30px;
+            background: rgba(76, 175, 80, 0.15);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 20px;
+            color: #4CAF50;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+            animation: pulseText 1.5s infinite;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .btn-tecnico-proximo {
+            margin-top: 30px;
+            padding: 16px 50px;
+            background: linear-gradient(135deg, #2d7a3a, #4CAF50);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-tecnico-proximo:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(76, 175, 80, 0.3);
+        }
+
+        /* ============================================================
+           ETAPA 2 - VALIDAÇÃO TST (COM SENHA)
            ============================================================ */
         .validacao-content {
-            max-width: 600px;
+            max-width: 500px;
             margin: 0 auto;
         }
 
@@ -610,6 +712,54 @@
             margin-top: 4px;
         }
 
+        /* Senha TST */
+        .tst-senha-area {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(76, 175, 80, 0.08);
+            border-radius: 14px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .tst-senha-area label {
+            color: #aabbab;
+            font-size: 14px;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .tst-senha-area input {
+            width: 100%;
+            max-width: 250px;
+            padding: 12px 18px;
+            border: 2px solid rgba(76, 175, 80, 0.2);
+            border-radius: 12px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            color: #e8f5e9;
+            outline: none;
+            text-align: center;
+            letter-spacing: 3px;
+        }
+
+        .tst-senha-area input:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1);
+        }
+
+        .tst-senha-area .erro-senha-tst {
+            color: #ef9a9a;
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .tst-senha-area .erro-senha-tst.visible {
+            display: block;
+        }
+
         .checkbox-group-validacao {
             margin: 22px 0;
             display: flex;
@@ -644,12 +794,7 @@
             flex-shrink: 0;
         }
 
-        /* ============================================================
-           BOTÕES DE NAVEGAÇÃO
-           ============================================================ */
-        .botoes-validacao,
-        .botoes-assinatura-final,
-        .botoes-finalizacao {
+        .botoes-validacao {
             display: flex;
             gap: 15px;
             margin-top: 28px;
@@ -776,8 +921,8 @@
 
         .btn-limpar {
             padding: 12px 30px;
-            background: rgba(255, 0, 0, 0.1);
-            border: 2px solid rgba(255, 0, 0, 0.2);
+            background: rgba(255, 0, 0, 0.15);
+            border: 2px solid rgba(255, 0, 0, 0.25);
             border-radius: 12px;
             color: #ef9a9a;
             cursor: pointer;
@@ -787,7 +932,7 @@
         }
 
         .btn-limpar:hover {
-            background: rgba(255, 0, 0, 0.2);
+            background: rgba(255, 0, 0, 0.25);
             border-color: rgba(255, 0, 0, 0.4);
             color: #ffcdd2;
             transform: scale(1.02);
@@ -823,6 +968,12 @@
             background: rgba(76, 175, 80, 0.1);
             color: #81C784;
             border: 1px solid rgba(76, 175, 80, 0.15);
+        }
+
+        .botoes-assinatura-final {
+            display: flex;
+            gap: 15px;
+            margin-top: 28px;
         }
 
         .btn-finalizar {
@@ -932,6 +1083,46 @@
             font-weight: 700;
             color: #e8f5e9;
             margin-top: 3px;
+        }
+
+        .assinatura-miniatura {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0 25px 0;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            border: 1px solid rgba(76, 175, 80, 0.08);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .assinatura-miniatura .assinatura-label {
+            font-size: 12px;
+            color: #667766;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .assinatura-miniatura canvas {
+            border: 1px solid rgba(76, 175, 80, 0.15);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            max-width: 200px;
+            max-height: 60px;
+        }
+
+        .assinatura-miniatura .sem-assinatura {
+            color: #667766;
+            font-size: 13px;
+        }
+
+        .botoes-finalizacao {
+            display: flex;
+            gap: 15px;
+            margin-top: 28px;
         }
 
         .btn-nova-solicitacao {
@@ -1136,7 +1327,6 @@
             color: #ffcdd2;
         }
 
-        /* Tela de senha do histórico */
         .historico-senha-area {
             text-align: center;
             padding: 30px 0;
@@ -1196,7 +1386,6 @@
             display: block;
         }
 
-        /* Lista do histórico */
         .historico-lista-container {
             display: none;
         }
@@ -1410,6 +1599,32 @@
                 font-size: 10px;
                 padding: 1px 8px;
             }
+
+            .assinatura-miniatura {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .assinatura-miniatura canvas {
+                max-width: 100%;
+                max-height: 50px;
+            }
+
+            .btn-fullscreen {
+                top: 10px;
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .tecnico-caminho-content h2 {
+                font-size: 24px;
+            }
+
+            .tecnico-caminho-content .icone-tecnico {
+                font-size: 60px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1480,12 +1695,24 @@
             .modal-conteudo {
                 padding: 15px;
             }
+
+            .btn-fullscreen {
+                padding: 4px 10px;
+                font-size: 10px;
+                top: 5px;
+                right: 5px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- ==================== TELA DE LOGIN (SEMPRE VISÍVEL INICIALMENTE) ==================== -->
+    <!-- ==================== BOTÃO TELA CHEIA ==================== -->
+    <button class="btn-fullscreen" onclick="toggleFullScreen()">
+        <span class="icon">⛶</span> Tela Cheia
+    </button>
+
+    <!-- ==================== TELA DE LOGIN ==================== -->
     <div id="loginScreen" class="login-container">
         <div class="login-box">
             <div class="login-header">
@@ -1493,21 +1720,16 @@
                 <h1>Totem de <span>EPIs</span></h1>
                 <p>Identifique-se para solicitar seu EPI</p>
             </div>
-            
+
             <div class="login-form">
                 <div class="form-group">
-                    <label>👤 Nome do Trabalhador</label>
-                    <input type="text" id="nomeTrabalhador" placeholder="Digite seu nome completo" autofocus>
+                    <label>👤 Usuário</label>
+                    <input type="text" id="nomeTrabalhador" placeholder="Digite seu usuário" autofocus>
                 </div>
                 
                 <div class="form-group">
-                    <label>🔑 Código do Trabalhador</label>
-                    <input type="text" id="codigoTrabalhador" placeholder="Digite seu código de acesso">
-                </div>
-
-                <div class="form-group">
-                    <label>🏗️ Função</label>
-                    <input type="text" id="funcaoTrabalhador" placeholder="Sua função no trabalho">
+                    <label>🔑 Senha</label>
+                    <input type="password" id="codigoTrabalhador" placeholder="Digite sua senha">
                 </div>
 
                 <button id="btnIniciar" class="btn-login">
@@ -1524,7 +1746,7 @@
         <!-- ======== TOPO DO TOTEM ======== -->
         <header class="totem-header">
             <div class="totem-header-left">
-                <img src="../img/logo.png" alt="Logo" class="header-logo">
+                <img src="logo.png" alt="Logo" class="header-logo">
                 <div>
                     <h1>Totem de <span>EPIs</span></h1>
                     <span class="header-sub">Sistema de Solicitação e Validação</span>
@@ -1534,6 +1756,7 @@
                 <span class="trabalhador-info">
                     👤 <strong id="headerTrabalhador">-</strong>
                     <span id="headerCodigo">-</span>
+                    <span id="headerTipo" style="display:block;font-size:11px;color:#4CAF50;"></span>
                 </span>
             </div>
         </header>
@@ -1545,7 +1768,7 @@
             <section id="etapaSolicitar" class="etapa-page active">
                 <div class="etapa-wrapper">
                     <div class="etapa-header">
-                        <div class="etapa-badge">Passo 1 de 3</div>
+                        <div class="etapa-badge">Passo 1 de 4</div>
                         <h2>📦 Solicitar EPI</h2>
                         <p>Selecione o Equipamento de Proteção Individual que você precisa</p>
                     </div>
@@ -1581,7 +1804,7 @@
 
                         <div class="form-group">
                             <label>📦 Quantidade</label>
-                            <input type="number" id="quantidadeEPI" value="1" min="1" max="10">
+                            <input type="number" id="quantidadeEPI" value="1" min="1" max="1">
                         </div>
 
                         <div class="form-group">
@@ -1589,8 +1812,24 @@
                             <textarea id="observacaoEPI" rows="2" placeholder="Alguma observação sobre a solicitação..."></textarea>
                         </div>
 
-                        <button class="btn-proximo-solicitar" onclick="irParaValidacao()">
+                        <button class="btn-proximo-solicitar" onclick="irParaTecnicoCaminho()">
                             Solicitar EPI → <span class="btn-icon">➜</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== ETAPA 1.5: TÉCNICO A CAMINHO ===== -->
+            <section id="etapaTecnico" class="etapa-page" style="display:none;">
+                <div class="etapa-wrapper">
+                    <div class="tecnico-caminho-content">
+                        <div class="icone-tecnico">👷</div>
+                        <h2>🔧 Técnico a Caminho</h2>
+                        <p>Aguarde, um técnico está indo até você para validar a entrega.</p>
+                        <div class="status-tecnico">⏳ Aguardando...</div>
+                        <br>
+                        <button class="btn-tecnico-proximo" onclick="irParaValidacao()">
+                            Técnico Chegou → <span class="btn-icon">➜</span>
                         </button>
                     </div>
                 </div>
@@ -1600,9 +1839,9 @@
             <section id="etapaValidacao" class="etapa-page" style="display:none;">
                 <div class="etapa-wrapper">
                     <div class="etapa-header">
-                        <div class="etapa-badge">Passo 2 de 3</div>
+                        <div class="etapa-badge">Passo 2 de 4</div>
                         <h2>🔒 Validação do TST</h2>
-                        <p>Um responsável do TST deve validar a solicitação</p>
+                        <p>O técnico deve validar a solicitação</p>
                     </div>
 
                     <div class="validacao-content">
@@ -1621,6 +1860,13 @@
                                     <span class="resumo-valor" id="validacaoQtd">-</span>
                                 </div>
                             </div>
+                        </div>
+
+                        <!-- SENHA TST -->
+                        <div class="tst-senha-area">
+                            <label>🔑 Digite a senha do TST</label>
+                            <input type="password" id="senhaTST" placeholder="Senha do TST" maxlength="10">
+                            <div id="erroSenhaTST" class="erro-senha-tst">❌ Senha incorreta! Tente novamente.</div>
                         </div>
 
                         <div class="form-group">
@@ -1645,7 +1891,7 @@
                         </div>
 
                         <div class="botoes-validacao">
-                            <button class="btn-voltar" onclick="voltarSolicitar()">← Voltar</button>
+                            <button class="btn-voltar" onclick="voltarTecnico()">← Voltar</button>
                             <button class="btn-proximo" onclick="irParaAssinatura()">
                                 Validar e Prosseguir → <span class="btn-icon">➜</span>
                             </button>
@@ -1658,7 +1904,7 @@
             <section id="etapaAssinatura" class="etapa-page" style="display:none;">
                 <div class="etapa-wrapper">
                     <div class="etapa-header">
-                        <div class="etapa-badge">Passo 3 de 3</div>
+                        <div class="etapa-badge">Passo 3 de 4</div>
                         <h2>✍️ Assinatura do Trabalhador</h2>
                         <p>Assine para confirmar o recebimento do EPI</p>
                     </div>
@@ -1704,7 +1950,7 @@
                 </div>
             </section>
 
-            <!-- ===== FINALIZAÇÃO ===== -->
+            <!-- ===== ETAPA 4: FINALIZAÇÃO ===== -->
             <section id="etapaHistorico" class="etapa-page" style="display:none;">
                 <div class="etapa-wrapper historico-wrapper">
                     <div class="etapa-header">
@@ -1747,6 +1993,12 @@
                             </div>
                         </div>
 
+                        <div class="assinatura-miniatura">
+                            <span class="assinatura-label">✍️ Assinatura do Trabalhador:</span>
+                            <canvas id="assinaturaMiniatura" width="200" height="60"></canvas>
+                            <span class="sem-assinatura" id="semAssinatura" style="display:none;">❌ Nenhuma assinatura registrada</span>
+                        </div>
+
                         <div class="botoes-finalizacao">
                             <button class="btn-nova-solicitacao" onclick="novaSolicitacao()">
                                 🔄 Nova Solicitação
@@ -1786,7 +2038,6 @@
                 </div>
             </div>
 
-            <!-- Tela de Senha -->
             <div id="senhaHistoricoArea" class="historico-senha-area">
                 <p>🔒 Digite a senha para visualizar o histórico</p>
                 <input type="password" id="senhaHistorico" placeholder="Digite a senha" maxlength="10">
@@ -1795,16 +2046,28 @@
                 <div id="erroSenha" class="erro-senha">❌ Senha incorreta! Tente novamente.</div>
             </div>
 
-            <!-- Lista do Histórico -->
             <div id="historicoListaContainer" class="historico-lista-container">
-                <div id="listaHistorico" class="modal-historico-lista">
-                    <!-- Lista gerada pelo JavaScript -->
-                </div>
+                <div id="listaHistorico" class="modal-historico-lista"></div>
             </div>
         </div>
     </div>
 
     <script>
+        // ============================================================
+        // FUNÇÃO TELA CHEIA
+        // ============================================================
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    alert('⚠️ Não foi possível entrar em tela cheia.');
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
         // ============================================================
         // APP.JS - TOTEM DE AUTORATENDIMENTO
         // ============================================================
@@ -1812,23 +2075,32 @@
             dadosSolicitacao: {},
             registros: [],
             senhaHistorico: '1234',
+            senhaTST: '1234',
             historicoDesbloqueado: false,
+            usuarioAtual: null,
+            tipoUsuario: null,
+            assinaturaSalva: null,
+
+            contas: {
+                trabalhadores: [
+                    { nome: 'João Silva', codigo: '123', funcao: 'Operador' },
+                    { nome: 'Maria Santos', codigo: '456', funcao: 'Técnica' },
+                    { nome: 'Carlos Lima', codigo: '789', funcao: 'Mecânico' }
+                ],
+                tst: { nome: 'TST Responsável', codigo: '1234', funcao: 'TST' }
+            },
 
             init() {
-                // CARREGAR REGISTROS SEMPRE
                 this.carregarRegistros();
                 this.atualizarBadge();
 
-                // SEMPRE MOSTRAR A TELA DE LOGIN PRIMEIRO
                 document.getElementById('loginScreen').style.display = 'flex';
                 document.getElementById('sistema').style.display = 'none';
 
-                // Configurar botão de login
                 document.getElementById('btnIniciar').addEventListener('click', () => {
                     this.iniciarSolicitacao();
                 });
 
-                // Enter para avançar no login
                 document.getElementById('codigoTrabalhador').addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {
                         e.preventDefault();
@@ -1843,7 +2115,6 @@
                     }
                 });
 
-                // Enter para senha do histórico
                 document.getElementById('senhaHistorico').addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {
                         e.preventDefault();
@@ -1851,24 +2122,39 @@
                     }
                 });
 
-                // Foco inicial no nome
+                document.getElementById('senhaTST').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        // Não faz nada, o usuário deve clicar no botão
+                    }
+                });
+
                 document.getElementById('nomeTrabalhador').focus();
 
-                // Fechar modal com ESC
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') {
                         fecharHistorico();
                     }
                 });
 
-                // Fechar modal clicando fora
                 document.getElementById('modalHistorico').addEventListener('click', (e) => {
                     if (e.target === e.currentTarget) {
                         fecharHistorico();
                     }
                 });
 
-                // Limpar dados de sessão ao carregar a página
+                // ===== PROTEÇÃO AO FECHAR A ABA =====
+                window.addEventListener('beforeunload', (e) => {
+                    if (document.getElementById('sistema').style.display === 'flex') {
+                        const senha = prompt('🔒 Digite a senha para sair do sistema:');
+                        if (senha !== this.senhaHistorico) {
+                            e.preventDefault();
+                            e.returnValue = 'Senha incorreta! Você não pode fechar o sistema.';
+                            return e.returnValue;
+                        }
+                    }
+                });
+
                 localStorage.removeItem('trabalhadorNome');
                 localStorage.removeItem('trabalhadorCodigo');
                 localStorage.removeItem('trabalhadorFuncao');
@@ -1894,8 +2180,17 @@
             atualizarHeader() {
                 const nome = localStorage.getItem('trabalhadorNome') || '-';
                 const codigo = localStorage.getItem('trabalhadorCodigo') || '-';
+                const tipo = localStorage.getItem('tipoUsuario') || '';
                 document.getElementById('headerTrabalhador').textContent = nome;
                 document.getElementById('headerCodigo').textContent = codigo;
+                const tipoEl = document.getElementById('headerTipo');
+                if (tipo === 'tst') {
+                    tipoEl.textContent = '🔒 TST';
+                    tipoEl.style.color = '#FF9800';
+                } else {
+                    tipoEl.textContent = '👷 Trabalhador';
+                    tipoEl.style.color = '#4CAF50';
+                }
             },
 
             atualizarResumo() {
@@ -1905,33 +2200,64 @@
                 document.getElementById('resumoCodigo').textContent = codigo;
             },
 
+            verificarLogin(nome, codigo) {
+                if (nome.toLowerCase() === 'tst' && codigo === '1234') {
+                    this.tipoUsuario = 'tst';
+                    return { nome: 'TST Responsável', codigo: '1234', funcao: 'TST' };
+                }
+
+                for (let t of this.contas.trabalhadores) {
+                    if (t.nome.toLowerCase() === nome.toLowerCase() && t.codigo === codigo) {
+                        this.tipoUsuario = 'trabalhador';
+                        return t;
+                    }
+                }
+
+                for (let t of this.contas.trabalhadores) {
+                    if (t.nome.toLowerCase() === nome.toLowerCase()) {
+                        this.tipoUsuario = 'trabalhador';
+                        return t;
+                    }
+                }
+
+                return null;
+            },
+
             iniciarSolicitacao() {
                 const nome = document.getElementById('nomeTrabalhador').value.trim();
                 const codigo = document.getElementById('codigoTrabalhador').value.trim();
-                const funcao = document.getElementById('funcaoTrabalhador').value.trim();
                 const erro = document.getElementById('mensagemErro');
 
                 if (!nome) {
-                    erro.textContent = '❌ Por favor, informe seu nome!';
+                    erro.textContent = '❌ Por favor, informe seu usuário!';
                     erro.style.display = 'block';
                     document.getElementById('nomeTrabalhador').focus();
                     return;
                 }
 
                 if (!codigo) {
-                    erro.textContent = '❌ Por favor, informe seu código!';
+                    erro.textContent = '❌ Por favor, informe sua senha!';
                     erro.style.display = 'block';
                     document.getElementById('codigoTrabalhador').focus();
                     return;
                 }
 
+                const usuario = this.verificarLogin(nome, codigo);
+                if (!usuario) {
+                    erro.textContent = '❌ Usuário ou senha incorretos! Tente novamente.';
+                    erro.style.display = 'block';
+                    document.getElementById('nomeTrabalhador').focus();
+                    return;
+                }
+
                 erro.style.display = 'none';
 
-                localStorage.setItem('trabalhadorNome', nome);
-                localStorage.setItem('trabalhadorCodigo', codigo);
-                localStorage.setItem('trabalhadorFuncao', funcao);
+                this.usuarioAtual = usuario;
+                localStorage.setItem('trabalhadorNome', usuario.nome);
+                localStorage.setItem('trabalhadorCodigo', usuario.codigo);
+                localStorage.setItem('trabalhadorFuncao', usuario.funcao || '-');
+                localStorage.setItem('tipoUsuario', this.tipoUsuario);
 
-                // Mostrar sistema e esconder login
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('sistema').style.display = 'flex';
 
@@ -1963,7 +2289,7 @@
                 const canvas = document.getElementById('canvasAssinatura');
                 if (!canvas) return;
 
-                // Remover event listeners antigos
+                // REMOVER EVENT LISTENERS ANTIGOS E RECRIAR
                 const novoCanvas = canvas.cloneNode(true);
                 canvas.parentNode.replaceChild(novoCanvas, canvas);
                 
@@ -1977,6 +2303,7 @@
                 novoCanvas.style.width = width + 'px';
                 novoCanvas.style.height = height + 'px';
 
+                // FUNÇÃO DE LIMPAR
                 const limparCanvas = function() {
                     ctx.fillStyle = 'rgba(255,255,255,0.02)';
                     ctx.fillRect(0, 0, novoCanvas.width, novoCanvas.height);
@@ -1994,6 +2321,15 @@
                         statusEl.style.display = 'none';
                         statusEl.className = 'assinatura-status';
                     }
+                    
+                    const miniatura = document.getElementById('assinaturaMiniatura');
+                    if (miniatura) {
+                        const miniCtx = miniatura.getContext('2d');
+                        miniCtx.clearRect(0, 0, miniatura.width, miniatura.height);
+                    }
+                    
+                    app.assinaturaSalva = null;
+                    localStorage.removeItem('assinaturaSalva');
                 };
 
                 let desenhando = false;
@@ -2052,12 +2388,12 @@
                 novoCanvas.addEventListener('touchcancel', pararDesenho, { passive: false });
 
                 novoCanvas._limpar = limparCanvas;
-                window._limparAssinaturaGlobal = limparCanvas;
+                window.limparAssinaturaGlobal = limparCanvas;
                 
                 limparCanvas();
             },
 
-            irParaValidacao() {
+            irParaTecnicoCaminho() {
                 const epi = document.getElementById('epiSelect').value;
                 const quantidade = document.getElementById('quantidadeEPI').value || 1;
                 const observacao = document.getElementById('observacaoEPI').value.trim();
@@ -2076,6 +2412,14 @@
                     observacao: observacao
                 };
 
+                this.mostrarEtapa('etapaTecnico');
+            },
+
+            voltarTecnico() {
+                this.mostrarEtapa('etapaTecnico');
+            },
+
+            irParaValidacao() {
                 document.getElementById('validacaoNome').textContent = this.dadosSolicitacao.nome;
                 document.getElementById('validacaoEpi').textContent = this.dadosSolicitacao.epi;
                 document.getElementById('validacaoQtd').textContent = this.dadosSolicitacao.quantidade;
@@ -2089,6 +2433,22 @@
             },
 
             irParaAssinatura() {
+                // VERIFICAR SENHA TST
+                const senhaTST = document.getElementById('senhaTST').value.trim();
+                const erroSenha = document.getElementById('erroSenhaTST');
+
+                if (senhaTST !== this.senhaTST) {
+                    erroSenha.classList.add('visible');
+                    document.getElementById('senhaTST').value = '';
+                    document.getElementById('senhaTST').focus();
+                    setTimeout(() => {
+                        erroSenha.classList.remove('visible');
+                    }, 3000);
+                    return;
+                }
+
+                erroSenha.classList.remove('visible');
+
                 const responsavel = document.getElementById('responsavelTST').value.trim();
                 const confirmacao = document.getElementById('confirmacaoTST').checked;
                 const treinamento = document.getElementById('treinamentoTST').checked;
@@ -2133,6 +2493,10 @@
                     return;
                 }
 
+                // SALVAR A ASSINATURA
+                this.assinaturaSalva = dataUrl;
+                localStorage.setItem('assinaturaSalva', dataUrl);
+
                 const registro = {
                     id: Date.now(),
                     data: new Date().toISOString().split('T')[0],
@@ -2160,8 +2524,36 @@
                 document.getElementById('histTST').textContent = registro.responsavelTST;
                 document.getElementById('histData').textContent = `${registro.data} ${registro.hora}`;
 
+                this.mostrarAssinaturaMiniatura(dataUrl);
+
                 this.mostrarEtapa('etapaHistorico');
                 this.atualizarBadge();
+            },
+
+            mostrarAssinaturaMiniatura(dataUrl) {
+                const miniaturaCanvas = document.getElementById('assinaturaMiniatura');
+                const semAssinatura = document.getElementById('semAssinatura');
+                
+                if (dataUrl && dataUrl.length > 1000) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const ctx = miniaturaCanvas.getContext('2d');
+                        miniaturaCanvas.width = 200;
+                        miniaturaCanvas.height = 60;
+                        ctx.clearRect(0, 0, 200, 60);
+                        ctx.drawImage(img, 0, 0, 200, 60);
+                        semAssinatura.style.display = 'none';
+                        miniaturaCanvas.style.display = 'block';
+                    };
+                    img.onerror = function() {
+                        miniaturaCanvas.style.display = 'none';
+                        semAssinatura.style.display = 'block';
+                    };
+                    img.src = dataUrl;
+                } else {
+                    miniaturaCanvas.style.display = 'none';
+                    semAssinatura.style.display = 'block';
+                }
             },
 
             novaSolicitacao() {
@@ -2171,16 +2563,13 @@
                 document.getElementById('observacaoEPI').value = '';
                 document.getElementById('responsavelTST').value = '';
                 document.getElementById('registroTST').value = '';
+                document.getElementById('senhaTST').value = '';
                 document.getElementById('confirmacaoTST').checked = false;
                 document.getElementById('treinamentoTST').checked = false;
+                document.getElementById('erroSenhaTST').classList.remove('visible');
 
-                if (typeof window._limparAssinaturaGlobal === 'function') {
-                    window._limparAssinaturaGlobal();
-                } else {
-                    const canvas = document.getElementById('canvasAssinatura');
-                    if (canvas && canvas._limpar) {
-                        canvas._limpar();
-                    }
+                if (typeof window.limparAssinaturaGlobal === 'function') {
+                    window.limparAssinaturaGlobal();
                 }
 
                 const statusEl = document.getElementById('assinaturaStatus');
@@ -2198,13 +2587,13 @@
                     localStorage.removeItem('trabalhadorNome');
                     localStorage.removeItem('trabalhadorCodigo');
                     localStorage.removeItem('trabalhadorFuncao');
+                    localStorage.removeItem('tipoUsuario');
                     
                     document.getElementById('sistema').style.display = 'none';
                     document.getElementById('loginScreen').style.display = 'flex';
                     
                     document.getElementById('nomeTrabalhador').value = '';
                     document.getElementById('codigoTrabalhador').value = '';
-                    document.getElementById('funcaoTrabalhador').value = '';
                     document.getElementById('mensagemErro').style.display = 'none';
                     
                     document.getElementById('nomeTrabalhador').focus();
@@ -2292,6 +2681,8 @@
                             tr:hover { background: #f5f5f5; }
                             .status { color: #4CAF50; font-weight: bold; }
                             .footer { text-align: center; margin-top: 30px; color: #999; font-size: 12px; border-top: 1px solid #ddd; padding-top: 15px; }
+                            .assinatura-section { margin-top: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; text-align: center; }
+                            .assinatura-section img { max-width: 200px; max-height: 60px; border: 1px solid #ccc; padding: 5px; background: #f9f9f9; margin: 5px; }
                         </style>
                     </head>
                     <body>
@@ -2333,6 +2724,22 @@
                 htmlContent += `
                             </tbody>
                         </table>
+                `;
+
+                htmlContent += `<div class="assinatura-section"><h3>✍️ Assinaturas dos Trabalhadores</h3>`;
+                registrosOrdenados.forEach(r => {
+                    if (r.assinatura && r.assinatura.length > 1000) {
+                        htmlContent += `
+                            <div style="margin:10px 0;padding:10px;border-bottom:1px solid #eee;">
+                                <p><strong>${r.funcionario}</strong> - ${r.data} ${r.hora || ''}</p>
+                                <img src="${r.assinatura}" alt="Assinatura de ${r.funcionario}">
+                            </div>
+                        `;
+                    }
+                });
+                htmlContent += `</div>`;
+
+                htmlContent += `
                         <div class="footer">
                             <p>Sistema de Controle de EPIs - Totem de Autoatendimento</p>
                             <p>Documento gerado automaticamente</p>
@@ -2384,7 +2791,9 @@
         // ============================================================
         // FUNÇÕES GLOBAIS
         // ============================================================
+        function irParaTecnicoCaminho() { if (app) app.irParaTecnicoCaminho(); }
         function irParaValidacao() { if (app) app.irParaValidacao(); }
+        function voltarTecnico() { if (app) app.voltarTecnico(); }
         function voltarSolicitar() { if (app) app.voltarSolicitar(); }
         function irParaAssinatura() { if (app) app.irParaAssinatura(); }
         function voltarValidacao() { if (app) app.voltarValidacao(); }
@@ -2393,8 +2802,8 @@
         function sairTotem() { if (app) app.sairTotem(); }
 
         function limparAssinatura() {
-            if (typeof window._limparAssinaturaGlobal === 'function') {
-                window._limparAssinaturaGlobal();
+            if (typeof window.limparAssinaturaGlobal === 'function') {
+                window.limparAssinaturaGlobal();
                 const statusEl = document.getElementById('assinaturaStatus');
                 if (statusEl) {
                     statusEl.style.display = 'none';
@@ -2405,44 +2814,32 @@
 
             const canvas = document.getElementById('canvasAssinatura');
             if (canvas) {
-                if (canvas._limpar) {
-                    canvas._limpar();
-                } else {
-                    const wrapper = canvas.parentElement;
-                    if (wrapper) {
-                        const novoCanvas = document.createElement('canvas');
-                        novoCanvas.id = 'canvasAssinatura';
-                        const width = Math.min(wrapper.clientWidth - 6, 600);
-                        const height = 200;
-                        novoCanvas.width = width;
-                        novoCanvas.height = height;
-                        novoCanvas.style.width = width + 'px';
-                        novoCanvas.style.height = height + 'px';
-                        
-                        const ctx = novoCanvas.getContext('2d');
-                        ctx.fillStyle = 'rgba(255,255,255,0.02)';
-                        ctx.fillRect(0, 0, novoCanvas.width, novoCanvas.height);
-                        ctx.strokeStyle = 'rgba(76, 175, 80, 0.15)';
-                        ctx.lineWidth = 1;
-                        ctx.strokeRect(0, 0, novoCanvas.width, novoCanvas.height);
-                        ctx.fillStyle = 'rgba(85, 102, 85, 0.3)';
-                        ctx.font = '16px Arial';
-                        ctx.textAlign = 'center';
-                        ctx.textBaseline = 'middle';
-                        ctx.fillText('Assine aqui', novoCanvas.width / 2, novoCanvas.height / 2);
-                        
-                        wrapper.replaceChild(novoCanvas, canvas);
-                        setTimeout(() => {
-                            if (app) app.iniciarAssinatura();
-                        }, 100);
-                    }
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = 'rgba(255,255,255,0.02)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.strokeStyle = 'rgba(76, 175, 80, 0.15)';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(85, 102, 85, 0.3)';
+                ctx.font = '16px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('Assine aqui', canvas.width / 2, canvas.height / 2);
+                
+                const statusEl = document.getElementById('assinaturaStatus');
+                if (statusEl) {
+                    statusEl.style.display = 'none';
+                    statusEl.className = 'assinatura-status';
                 }
-            }
-
-            const statusEl = document.getElementById('assinaturaStatus');
-            if (statusEl) {
-                statusEl.style.display = 'none';
-                statusEl.className = 'assinatura-status';
+                
+                const miniatura = document.getElementById('assinaturaMiniatura');
+                if (miniatura) {
+                    const miniCtx = miniatura.getContext('2d');
+                    miniCtx.clearRect(0, 0, miniatura.width, miniatura.height);
+                }
+                
+                app.assinaturaSalva = null;
+                localStorage.removeItem('assinaturaSalva');
             }
         }
 
@@ -2456,13 +2853,16 @@
                 return;
             }
 
+            app.assinaturaSalva = dataUrl;
+            localStorage.setItem('assinaturaSalva', dataUrl);
+
             const statusEl = document.getElementById('assinaturaStatus');
             if (statusEl) {
                 statusEl.textContent = '✅ Assinatura realizada com sucesso!';
                 statusEl.className = 'assinatura-status sucesso';
             }
 
-            localStorage.setItem('assinaturaSalva', dataUrl);
+            alert('✅ Assinatura salva com sucesso!');
         }
 
         function abrirHistorico() {
