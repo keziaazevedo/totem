@@ -984,23 +984,6 @@
             transform: scale(1.02);
         }
 
-        .btn-assinar {
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #2d7a3a, #4CAF50);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .btn-assinar:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
-        }
-
         .assinatura-status {
             margin-top: 12px;
             padding: 10px 16px;
@@ -1857,11 +1840,11 @@
         <div class="modal-emergencia-content">
             <div class="icone-emergencia">🚨</div>
             <h2>⚠️ EMERGÊNCIA ACIONADA!</h2>
-            <p>Um alerta foi enviado para todos os dispositivos conectados.</p>
-            <p id="emergenciaInfo" style="color:#889988;font-size:14px;">Aguardando confirmação...</p>
-            <div class="emergencia-timer" id="emergenciaTimer">Aguardando...</div>
+            <p>Alerta de emergência ativado!</p>
+            <p id="emergenciaInfo" style="color:#889988;font-size:14px;">Aguardando...</p>
+            <div class="emergencia-timer" id="emergenciaTimer">🔄 Alarme em execução</div>
             <br>
-            <button class="btn-fechar-emergencia" onclick="fecharEmergencia()">✅ Entendido</button>
+            <button class="btn-fechar-emergencia" onclick="fecharEmergencia()">✅ Desativar Alarme</button>
         </div>
     </div>
 
@@ -2087,7 +2070,6 @@
                             </div>
                             <div class="botoes-assinatura">
                                 <button class="btn-limpar" onclick="limparAssinatura()">🗑️ Limpar</button>
-                                <button class="btn-assinar" onclick="salvarAssinatura()">✍️ Assinar</button>
                             </div>
                             <div id="assinaturaStatus" class="assinatura-status"></div>
                         </div>
@@ -2208,23 +2190,105 @@
         // ============================================================
         // FUNÇÃO TELA CHEIA
         // ============================================================
+        let isFullScreen = false;
+
         function toggleFullScreen() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().catch(err => {
                     alert('⚠️ Não foi possível entrar em tela cheia.');
                 });
+                isFullScreen = true;
             } else {
+                // Não sair da tela cheia automaticamente
                 if (document.exitFullscreen) {
-                    document.exitFullscreen();
+                    // Não pergunta, apenas mantém a tela cheia
+                    // O usuário só sai se pressionar ESC
                 }
             }
         }
+
+        // Força a tela cheia se o usuário tentar sair
+        document.addEventListener('fullscreenchange', function() {
+            if (!document.fullscreenElement && isFullScreen) {
+                // Se saiu da tela cheia mas a flag diz que deve estar, entra novamente
+                document.documentElement.requestFullscreen().catch(err => {});
+            }
+        });
 
         // ============================================================
         // FUNÇÕES EMERGÊNCIA
         // ============================================================
         let emergenciaAtiva = false;
-        let emergenciaInterval = null;
+        let audioEmergencia = null;
+
+        function tocarAlertaEmergencia() {
+            try {
+                // Tenta usar o arquivo alerta.mp3
+                audioEmergencia = new Audio('alerta.mp3');
+                audioEmergencia.loop = true;
+                audioEmergencia.volume = 1.0;
+                audioEmergencia.play().catch(e => {
+                    console.log('Erro ao tocar áudio:', e);
+                    // Fallback: tenta criar um som de emergência usando Web Audio API
+                    tocarAlertaFallback();
+                });
+            } catch (e) {
+                console.log('Erro ao carregar áudio:', e);
+                tocarAlertaFallback();
+            }
+        }
+
+        function tocarAlertaFallback() {
+            try {
+                // Cria um som de emergência usando Web Audio API
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                oscillator.type = 'square';
+                oscillator.frequency.value = 800;
+                gainNode.gain.value = 0.3;
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                oscillator.start();
+                
+                // Modula a frequência para criar efeito de alarme
+                let count = 0;
+                const interval = setInterval(() => {
+                    if (!emergenciaAtiva) {
+                        clearInterval(interval);
+                        oscillator.stop();
+                        return;
+                    }
+                    count++;
+                    oscillator.frequency.value = count % 2 === 0 ? 1000 : 800;
+                }, 300);
+                
+                // Armazena para parar depois
+                audioEmergencia = {
+                    stop: function() {
+                        clearInterval(interval);
+                        oscillator.stop();
+                    }
+                };
+            } catch (e) {
+                console.log('Erro no fallback de áudio:', e);
+            }
+        }
+
+        function pararAlertaEmergencia() {
+            if (audioEmergencia) {
+                if (typeof audioEmergencia.stop === 'function') {
+                    audioEmergencia.stop();
+                } else if (typeof audioEmergencia.pause === 'function') {
+                    audioEmergencia.pause();
+                    audioEmergencia.currentTime = 0;
+                }
+                audioEmergencia = null;
+            }
+        }
 
         function acionarEmergencia() {
             if (emergenciaAtiva) {
@@ -2237,44 +2301,13 @@
             btn.classList.add('ativo');
             btn.innerHTML = '🔴 EMERGÊNCIA ATIVA <span class="badge-emergencia">!</span>';
 
+            tocarAlertaEmergencia();
+
             document.getElementById('modalEmergencia').classList.add('active');
-            document.getElementById('emergenciaInfo').textContent = '⏳ Enviando alerta para todos os dispositivos...';
-            
-            const alerta = {
-                id: Date.now(),
-                tipo: 'emergencia',
-                mensagem: '🚨 EMERGÊNCIA ACIONADA NO TOTEM!',
-                data: new Date().toISOString(),
-                origem: 'Totem EPIs',
-                trabalhador: localStorage.getItem('trabalhadorNome') || 'Não identificado'
-            };
+            document.getElementById('emergenciaInfo').textContent = '🔊 Alarme sonoro ativado!';
+            document.getElementById('emergenciaTimer').textContent = '🔴 EMERGÊNCIA EM ANDAMENTO';
 
-            localStorage.setItem('emergenciaAlerta', JSON.stringify(alerta));
-            localStorage.setItem('emergenciaAtiva', 'true');
-
-            setTimeout(() => {
-                document.getElementById('emergenciaInfo').textContent = '✅ Alerta enviado para todos os dispositivos conectados!';
-                document.getElementById('emergenciaTimer').textContent = '🔄 Aguardando confirmação dos dispositivos...';
-            }, 1500);
-
-            let tentativas = 0;
-            emergenciaInterval = setInterval(() => {
-                tentativas++;
-                const resposta = localStorage.getItem('emergenciaResposta');
-                if (resposta) {
-                    const dados = JSON.parse(resposta);
-                    if (dados.confirmado) {
-                        document.getElementById('emergenciaInfo').textContent = '✅ Todos os dispositivos confirmaram o alerta!';
-                        document.getElementById('emergenciaTimer').textContent = '🟢 Emergência registrada com sucesso!';
-                        clearInterval(emergenciaInterval);
-                    }
-                }
-                if (tentativas > 30) {
-                    clearInterval(emergenciaInterval);
-                    document.getElementById('emergenciaTimer').textContent = '⏱️ Tempo esgotado. Verifique manualmente.';
-                }
-            }, 1000);
-
+            // Registra no histórico local
             const emergencias = JSON.parse(localStorage.getItem('emergencias') || '[]');
             emergencias.push({
                 id: Date.now(),
@@ -2289,18 +2322,13 @@
 
         function fecharEmergencia() {
             emergenciaAtiva = false;
-            if (emergenciaInterval) {
-                clearInterval(emergenciaInterval);
-                emergenciaInterval = null;
-            }
+            pararAlertaEmergencia();
             
             document.getElementById('modalEmergencia').classList.remove('active');
             
             const btn = document.getElementById('btnEmergenciaFlutuante');
             btn.classList.remove('ativo');
             btn.innerHTML = '🚨 EMERGÊNCIA <span class="badge-emergencia">!</span>';
-            
-            localStorage.setItem('emergenciaAtiva', 'false');
             
             setTimeout(() => {
                 localStorage.removeItem('emergenciaAlerta');
@@ -2312,30 +2340,6 @@
             const badge = document.getElementById('emergenciaBadge');
             if (badge) {
                 badge.textContent = emergencias.length > 0 ? emergencias.length : '!';
-            }
-        }
-
-        // ============================================================
-        // FUNÇÃO PARA OUTRO DISPOSITIVO RECEBER ALERTA
-        // ============================================================
-        function verificarEmergenciaExterna() {
-            const alerta = localStorage.getItem('emergenciaAlerta');
-            if (alerta) {
-                const dados = JSON.parse(alerta);
-                if (dados.tipo === 'emergencia') {
-                    console.log('📱 ALERTA RECEBIDO:', dados);
-                    
-                    const resposta = {
-                        confirmado: true,
-                        timestamp: new Date().toISOString(),
-                        dispositivo: 'Outro Dispositivo'
-                    };
-                    localStorage.setItem('emergenciaResposta', JSON.stringify(resposta));
-                    
-                    if (document.getElementById('sistema').style.display !== 'flex') {
-                        alert('🚨 ALERTA DE EMERGÊNCIA!\n\n' + dados.mensagem + '\n\n' + dados.data);
-                    }
-                }
             }
         }
 
@@ -2366,9 +2370,6 @@
                 this.carregarRegistros();
                 this.atualizarBadge();
                 atualizarBadgeEmergencia();
-
-                verificarEmergenciaExterna();
-                setInterval(verificarEmergenciaExterna, 3000);
 
                 document.getElementById('loginScreen').style.display = 'flex';
                 document.getElementById('sistema').style.display = 'none';
@@ -2416,17 +2417,6 @@
                 document.getElementById('modalHistorico').addEventListener('click', (e) => {
                     if (e.target === e.currentTarget) {
                         fecharHistorico();
-                    }
-                });
-
-                window.addEventListener('beforeunload', (e) => {
-                    if (document.getElementById('sistema').style.display === 'flex') {
-                        const senha = prompt('🔒 Digite a senha para sair do sistema:');
-                        if (senha !== this.senhaHistorico) {
-                            e.preventDefault();
-                            e.returnValue = 'Senha incorreta! Você não pode fechar o sistema.';
-                            return e.returnValue;
-                        }
                     }
                 });
 
@@ -2539,6 +2529,11 @@
                 this.atualizarHeader();
                 this.atualizarResumo();
                 this.mostrarEtapa('etapaSolicitar');
+
+                // Garante a tela cheia
+                if (!document.fullscreenElement && isFullScreen) {
+                    document.documentElement.requestFullscreen().catch(err => {});
+                }
             },
 
             mostrarEtapa(etapaId) {
@@ -2837,10 +2832,18 @@
 
                 this.mostrarEtapa('etapaSolicitar');
                 this.atualizarResumo();
+
+                // Mantém a tela cheia
+                if (!document.fullscreenElement && isFullScreen) {
+                    document.documentElement.requestFullscreen().catch(err => {});
+                }
             },
 
             sairTotem() {
                 if (confirm('Deseja sair do totem? O próximo trabalhador poderá usar.')) {
+                    // Salva o estado da tela cheia ANTES de sair
+                    const estavaEmTelaCheia = !!document.fullscreenElement || isFullScreen;
+                    
                     localStorage.removeItem('trabalhadorNome');
                     localStorage.removeItem('trabalhadorCodigo');
                     localStorage.removeItem('trabalhadorFuncao');
@@ -2854,6 +2857,16 @@
                     document.getElementById('mensagemErro').style.display = 'none';
                     
                     document.getElementById('nomeTrabalhador').focus();
+
+                    // Mantém a tela cheia
+                    if (estavaEmTelaCheia) {
+                        isFullScreen = true;
+                        if (!document.fullscreenElement) {
+                            document.documentElement.requestFullscreen().catch(err => {
+                                console.log('Erro ao manter tela cheia:', err);
+                            });
+                        }
+                    }
                 }
             },
 
@@ -3119,28 +3132,6 @@
                 app.assinaturaSalva = null;
                 localStorage.removeItem('assinaturaSalva');
             }
-        }
-
-        function salvarAssinatura() {
-            const canvas = document.getElementById('canvasAssinatura');
-            if (!canvas) return;
-
-            const dataUrl = canvas.toDataURL();
-            if (dataUrl.length < 1000) {
-                alert('❌ Por favor, faça sua assinatura antes de salvar!');
-                return;
-            }
-
-            app.assinaturaSalva = dataUrl;
-            localStorage.setItem('assinaturaSalva', dataUrl);
-
-            const statusEl = document.getElementById('assinaturaStatus');
-            if (statusEl) {
-                statusEl.textContent = '✅ Assinatura realizada com sucesso!';
-                statusEl.className = 'assinatura-status sucesso';
-            }
-
-            alert('✅ Assinatura salva com sucesso!');
         }
 
         function abrirHistorico() {
